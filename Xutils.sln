@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C++ Express 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Xutils", "Xutils.vcproj", "{724CFFA7-9839-4691-A97B-49419CAC2AC0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Console Debug|Win32 = Console Debug|Win32
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{724CFFA7-9839-4691-A97B-49419CAC2AC0}.Console Debug|Win32.ActiveCfg = Console Debug|Win32
+		{724CFFA7-9839-4691-A97B-49419CAC2AC0}.Console Debug|Win32.Build.0 = Console Debug|Win32
+		{724CFFA7-9839-4691-A97B-49419CAC2AC0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{724CFFA7-9839-4691-A97B-49419CAC2AC0}.Debug|Win32.Build.0 = Debug|Win32
+		{724CFFA7-9839-4691-A97B-49419CAC2AC0}.Release|Win32.ActiveCfg = Release|Win32
+		{724CFFA7-9839-4691-A97B-49419CAC2AC0}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
