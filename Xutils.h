@@ -12,6 +12,13 @@
 
 #include <windows.h>
 
+typedef enum tagServices
+{
+	runasService,
+	ejectService,
+	loadService
+} Services;
+
 typedef struct tagPowerProServices
 {
 	void (*ErrMessage)(PSTR, PSTR);
@@ -60,7 +67,12 @@ void ShowLastError( );
 /**
  * Check number of arguments.
  */
-BOOL CheckArgumentsCount( int nArgs );
+BOOL CheckArgumentsCount( Services service, int nArgs );
 
+/**
+ * Convert specified ANSI string to Unicode string.
+ * Caller is responsible for freeing allocated wide string.
+ */
+BOOL ConvertMultiByteToWideChar( const char * ansiStr, wchar_t ** wideStr );
 
 #endif // #ifndef XUTILS_H

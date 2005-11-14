@@ -7,14 +7,14 @@
  *
  */
 
-#include <stdio.h>
+
+//#include <stdio.h>
 #include "Xutils.h"
 
 PowerProServices * PPServices = NULL;
 
 /**
  * Library's main entry point, no special processing needed
- *
  */
 BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD dwReason, PVOID lpvReserved )
 {
@@ -52,39 +52,63 @@ void ShowLastError( )
 	ShowErrorMessage( buffer );
 }
 
-BOOL CheckArgumentsCount( int nArgs )
+BOOL CheckArgumentsCount( Services service, int nArgs )
 {
 	BOOL nArgsOk = TRUE;
 
-	if( nArgs > 4 )
+	switch( service )
 	{
-		nArgsOk = FALSE;
-		ShowErrorMessage( "The service needs at most four arguments." );
-	}
-	else if( nArgs < 1 )
-	{
-		nArgsOk = FALSE;
-		ShowErrorMessage( "The service needs at least one argument." );
+		case runasService:
+		{
+			if( nArgs > 4 )
+			{
+				nArgsOk = FALSE;
+				ShowErrorMessage( "The service needs at most four arguments." );
+			}
+			else if( nArgs < 1 )
+			{
+				nArgsOk = FALSE;
+				ShowErrorMessage( "The service needs at least one argument." );
+			}
+			break;
+		}
+
+		case ejectService:
+		{
+
+			break;
+		}
+
+		case loadService:
+		{
+			break;
+		}
 	}
 
 	return nArgsOk;
 }
 
-_declspec( dllexport ) void eject( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
+BOOL ConvertMultiByteToWideChar( const char * ansiStr, wchar_t ** wideStr )
 {
-	PPServices = ppsv;
-	**szargs = '\0';
+	BOOL isOk = FALSE;
+	int wideCharsNeeded = MultiByteToWideChar( CP_THREAD_ACP, MB_ERR_INVALID_CHARS, ansiStr, -1, NULL, 0 );
 
-	if( TRUE == CheckArgumentsCount( nArgs, ppsv ) )
+	if( wideCharsNeeded > 0 )
 	{
-
+		*wideStr = malloc( wideCharsNeeded * sizeof( wchar_t ) );
+		if( *wideStr != NULL )
+		{
+			if( 0 != MultiByteToWideChar( CP_THREAD_ACP, MB_ERR_INVALID_CHARS, ansiStr, -1, *wideStr, wideCharsNeeded ) )
+			{
+				isOk = TRUE;
+			}
+			else
+			{
+				free( wideStr );
+				wideStr = NULL;
+			}
+		}
 	}
-}
 
-int main()
-{
-	PowerProServices ppsv;
-	PPServices = &ppsv;
-	test();
-
+	return isOk;
 }
