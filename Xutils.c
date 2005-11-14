@@ -75,11 +75,16 @@ BOOL CheckArgumentsCount( Services service, int nArgs )
 
 		case ejectService:
 		{
+			break;
+		}
+
+		case ejectmediaService:
+		{
 
 			break;
 		}
 
-		case loadService:
+		case loadmediaService:
 		{
 			break;
 		}

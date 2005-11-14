@@ -267,6 +267,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Wheel.c"
+				>
+			</File>
+			<File
 				RelativePath=".\Xutils.c"
 				>
 			</File>

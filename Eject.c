@@ -185,19 +185,31 @@ _declspec( dllexport ) void eject( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR
 	**szargs = '\0';
 	PPServices = ppsv;
 
-	if( TRUE == CheckArgumentsCount( ejectService, nArgs ) )
+	if( TRUE == CheckArgumentsCount( ejectmediaService, nArgs ) )
 	{
 		Eject( szargs[1][0] );
 	}
 }
 
-_declspec( dllexport ) void load( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
+_declspec( dllexport ) void ejectmedia( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
 {
 	// return nothing
 	**szargs = '\0';
 	PPServices = ppsv;
 
-	if( TRUE == CheckArgumentsCount( loadService, nArgs ) )
+	if( TRUE == CheckArgumentsCount( ejectmediaService, nArgs ) )
+	{
+		Eject( szargs[1][0] );
+	}
+}
+
+_declspec( dllexport ) void loadmedia( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
+{
+	// return nothing
+	**szargs = '\0';
+	PPServices = ppsv;
+
+	if( TRUE == CheckArgumentsCount( loadmediaService, nArgs ) )
 	{
 		Load( szargs[1][0] );
 	}

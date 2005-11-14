@@ -16,7 +16,8 @@ typedef enum tagServices
 {
 	runasService,
 	ejectService,
-	loadService
+	ejectmediaService,
+	loadmediaService
 } Services;
 
 typedef struct tagPowerProServices
