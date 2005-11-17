@@ -1,8 +1,7 @@
 
-#include <stdio.h>
-#include <windows.h>
-
 #include "Xutils.h"
+
+#include <stdio.h>
 
 
 HANDLE OpenVolume(TCHAR cDriveLetter);

@@ -1,13 +1,9 @@
 
-#include <stdio.h>
-
-// at least Windows XP needed
-#define _WIN32_WINNT 0x0501
-#include <windows.h>
-#include <wincred.h>
-
 #include "Xutils.h"
 
+#include <stdio.h>
+#include <wincred.h>
+#include <Sddl.h>
 
 /**
  * Prepare command line.
@@ -66,7 +62,7 @@ BOOL CreateCredUILabel( const wchar_t * commandLine, wchar_t ** label )
  * None of the (wchar_t *) arguments can be NULL!
  *
  */
-BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const wchar_t * preselectedUserName, const wchar_t * workingDirectory, PowerProServices * ppsv )
+BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const wchar_t * preselectedUserName, const wchar_t * workingDirectory )
 {
 	BOOL isOk = FALSE;
 	wchar_t * commandLine = NULL;
@@ -119,7 +115,7 @@ BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const
 				}
 				else
 				{
-					ShowLastError( ppsv );
+					ShowLastError( );
 				}
 
 				// Erase credentials from memory.
@@ -132,6 +128,32 @@ BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const
 	free( commandLine );
 
 	return isOk;
+}
+
+/**
+ * Run specified program using built-in local administrator account.
+ */
+BOOL Sudo( const wchar_t * programPath, const wchar_t * programArguments, const wchar_t * workingDirectory )
+{
+	BOOL retVal = FALSE;
+
+	PSID adminSid = NULL;
+	wchar_t adminName [CREDUI_MAX_USERNAME_LENGTH + 1];
+	int adminNameLength = sizeof( adminName ) / sizeof( wchar_t );
+	wchar_t domainName [CREDUI_MAX_USERNAME_LENGTH + 1];
+	int referencedDomainNameLength = sizeof( domainName ) / sizeof( wchar_t );
+	PSID_NAME_USE sidNameUse;
+
+	if( ConvertStringSidToSid( SDDL_LOCAL_ADMIN, &adminSid ) )
+	{
+		if( LookupAccountSidW( NULL, adminSid, adminName, &adminNameLength, domainName, &referencedDomainNameLength, &sidNameUse ) )
+		{
+			retVal = RunAs( programPath, programArguments, adminName, workingDirectory );
+		}
+		LocalFree( adminSid );
+	}
+
+	return retVal;
 }
 
 /*---------------------------------------------------------------------------*/
@@ -147,7 +169,6 @@ _declspec( dllexport ) void runas( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR
 	**szargs = '\0';
 	PPServices = ppsv;
 
-
 	if( TRUE == CheckArgumentsCount( runasService, nArgs ) )
 	{
 		if( ConvertMultiByteToWideChar( szargs[1], &programPath )
@@ -155,7 +176,7 @@ _declspec( dllexport ) void runas( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR
 			&& ConvertMultiByteToWideChar( szargs[3], &preselectedUserName )
 			&& ConvertMultiByteToWideChar( szargs[4], &workingDirectory ) )
 		{
-			RunAs( programPath, programArguments, preselectedUserName, workingDirectory, ppsv );
+			RunAs( programPath, programArguments, preselectedUserName, workingDirectory );
 		}
 
 		free( programPath );
@@ -163,4 +184,36 @@ _declspec( dllexport ) void runas( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR
 		free( preselectedUserName );
 		free( workingDirectory );
 	}
+}
+
+_declspec( dllexport ) void sudo( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
+{
+	wchar_t * programPath = NULL;
+	wchar_t * programArguments = NULL;
+	wchar_t * workingDirectory = NULL;
+
+	// return nothing
+	**szargs = '\0';
+	PPServices = ppsv;
+
+
+	if( TRUE == CheckArgumentsCount( sudoService, nArgs ) )
+	{
+		if( ConvertMultiByteToWideChar( szargs[1], &programPath )
+			&& ConvertMultiByteToWideChar( szargs[2], &programArguments )
+			&& ConvertMultiByteToWideChar( szargs[3], &workingDirectory ) )
+		{
+			Sudo( programPath, programArguments, workingDirectory );
+		}
+
+		free( programPath );
+		free( programArguments );
+		free( workingDirectory );
+	}
+}
+
+int main( int argc, char **argv )
+{
+	Sudo( L"c:\\windows\\system32\\cmd.exe", L"", L"" );
+	return 0;
 }

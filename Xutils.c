@@ -58,6 +58,21 @@ BOOL CheckArgumentsCount( Services service, int nArgs )
 
 	switch( service )
 	{
+		case sudoService:
+		{
+			if( nArgs > 3 )
+			{
+				nArgsOk = FALSE;
+				ShowErrorMessage( "The service needs at most three arguments." );
+			}
+			else if( nArgs < 1 )
+			{
+				nArgsOk = FALSE;
+				ShowErrorMessage( "The service needs at least one argument." );
+			}
+			break;
+		}
+
 		case runasService:
 		{
 			if( nArgs > 4 )

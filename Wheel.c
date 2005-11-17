@@ -1,10 +1,7 @@
 
-#include <stdio.h>
-
-#define _WIN32_WINNT 0x0500
-#include <windows.h>
-
 #include "Xutils.h"
+
+#include <stdio.h>
 
 /*---------------------------------------------------------------------------*/
 

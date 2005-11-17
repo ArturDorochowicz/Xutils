@@ -10,11 +10,14 @@
 #ifndef XUTILS_H
 #define XUTILS_H
 
+// at least Windows XP needed
+#define _WIN32_WINNT 0x0501
 #include <windows.h>
 
 typedef enum tagServices
 {
 	runasService,
+	sudoService,
 	ejectService,
 	ejectmediaService,
 	loadmediaService
