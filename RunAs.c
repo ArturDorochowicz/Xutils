@@ -8,11 +8,10 @@
 /**
  * Prepare command line.
  * Caller is responsible for freeing allocated string.
- *
  */
 BOOL CreateCommandLine( const wchar_t * programPath, const wchar_t * programArguments, wchar_t ** commandLine )
 {
-	BOOL isOk = FALSE;		
+	BOOL isOk = FALSE;
 	int programPathLength = wcslen( programPath );
 
 	// commandLine = ["] + programPath + ["] + [space] + programArguments
@@ -34,23 +33,20 @@ BOOL CreateCommandLine( const wchar_t * programPath, const wchar_t * programArgu
 }
 
 /**
- * Prepare label for prompt for credentials dialog.
+ * Prepare label for prompt-for-credentials dialog.
  * Caller is responsible for freeing allocated string.
- *
  */
 BOOL CreateCredUILabel( const wchar_t * commandLine, wchar_t ** label )
 {
 	BOOL isOk = FALSE;
+
 	// label = commandLine
-	int labelLength = wcslen( commandLine ) + 1;
-	if( labelLength < CREDUI_MAX_MESSAGE_LENGTH )
+	// copy up to CREDUI_MAX_MESSAGE_LENGTH characters
+	int labelLength = wcslen( commandLine );
+	if( NULL != ( *label = malloc( ( labelLength + 1 ) * sizeof( wchar_t ) ) ) )
 	{
-		*label = malloc( labelLength * sizeof( wchar_t ) );
-		if( *label != NULL )
-		{
-			wcscpy( *label, commandLine );
-			isOk = TRUE;
-		}
+		wcsncpy( *label, commandLine, 1 + min( labelLength, CREDUI_MAX_MESSAGE_LENGTH ) );
+		isOk = TRUE;
 	}
 
 	return isOk;
@@ -60,7 +56,6 @@ BOOL CreateCredUILabel( const wchar_t * commandLine, wchar_t ** label )
  * Show logon dialog with preselected user name,
  * then use obtained credentials to run module specified in programPath.
  * None of the (wchar_t *) arguments can be NULL!
- *
  */
 BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const wchar_t * preselectedUserName, const wchar_t * workingDirectory )
 {
@@ -82,46 +77,51 @@ BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const
 
 		if( TRUE == CreateCredUILabel( commandLine, &credUIInfo.pszMessageText ) )
 		{
-			wchar_t userName [CREDUI_MAX_USERNAME_LENGTH + 1];
-			wchar_t password [CREDUI_MAX_PASSWORD_LENGTH + 1];
+			wchar_t userName [CREDUI_MAX_USERNAME_LENGTH + 1] = {0};
+			wchar_t password [CREDUI_MAX_PASSWORD_LENGTH + 1] = {0};
+			BOOL repeat = FALSE;
 
-			SecureZeroMemory( userName, sizeof( userName ) );
-			SecureZeroMemory( password, sizeof( password ) );
+			wcsncpy( userName, preselectedUserName, CREDUI_MAX_USERNAME_LENGTH + 1 );
 
-			wcsncpy( userName, preselectedUserName, CREDUI_MAX_USERNAME_LENGTH );
-
-			// Ask for credentials.
-			errCode = CredUIPromptForCredentialsW(
-				&credUIInfo,                        // CREDUI_INFO structure
-				NULL,								// Target for credentials, usually a server
-				NULL,                               // Reserved
-				0,                                  // Reason
-				userName,                           // User name
-				CREDUI_MAX_USERNAME_LENGTH + 1,     // Max number of char for user name
-				password,                           // Password
-				CREDUI_MAX_PASSWORD_LENGTH + 1,     // Max number of char for password
-				&saveState,                         // State of save check box
-				CREDUI_FLAGS_GENERIC_CREDENTIALS |  // flags
-				CREDUI_FLAGS_ALWAYS_SHOW_UI |
-				CREDUI_FLAGS_DO_NOT_PERSIST );
-
-			if( !errCode )
+			do
 			{
-				if( CreateProcessWithLogonW( userName, NULL, password, LOGON_WITH_PROFILE,
-					programPath, commandLine,
-					0, NULL, workingDirectory, &startupInfo, &processInfo ) )
-				{
-					isOk = TRUE;
-				}
-				else
-				{
-					ShowLastError( );
-				}
+				repeat = FALSE;
 
-				// Erase credentials from memory.
-				SecureZeroMemory( userName, sizeof( userName) );
-				SecureZeroMemory( password, sizeof( password ) );
-			}
+				// Ask for credentials.
+				if( !CredUIPromptForCredentialsW(
+					&credUIInfo,                        // CREDUI_INFO structure
+					NULL,								// Target for credentials, usually a server
+					NULL,                               // Reserved
+					0,                                  // Reason
+					userName,                           // User name
+					CREDUI_MAX_USERNAME_LENGTH + 1,     // Max number of char for user name
+					password,                           // Password
+					CREDUI_MAX_PASSWORD_LENGTH + 1,     // Max number of char for password
+					&saveState,                         // State of save check box
+					CREDUI_FLAGS_GENERIC_CREDENTIALS |  // flags
+					CREDUI_FLAGS_ALWAYS_SHOW_UI |
+					CREDUI_FLAGS_DO_NOT_PERSIST ) )
+				{
+					if( CreateProcessWithLogonW( userName, NULL, password, LOGON_WITH_PROFILE,
+						programPath, commandLine,
+						0, NULL, workingDirectory, &startupInfo, &processInfo ) )
+					{
+						isOk = TRUE;
+					}
+					else
+					{
+						errCode = GetLastError( );
+						ShowLastError( );
+
+						if( ERROR_LOGON_FAILURE != errCode )
+							repeat = TRUE;
+					}
+				}
+			} while( repeat );
+			
+			// Erase credentials from memory.
+			SecureZeroMemory( userName, sizeof( userName) );
+			SecureZeroMemory( password, sizeof( password ) );
 		}
 		free( credUIInfo.pszMessageText );
 	}
@@ -214,6 +214,8 @@ _declspec( dllexport ) void sudo( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR)
 
 int main( int argc, char **argv )
 {
+	wchar_t * p;
+
 	Sudo( L"c:\\windows\\system32\\cmd.exe", L"", L"" );
 	return 0;
 }
