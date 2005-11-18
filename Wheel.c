@@ -1,8 +1,6 @@
 
 #include "Xutils.h"
 
-#include <stdio.h>
-
 /*---------------------------------------------------------------------------*/
 
 const int SCROLL_WINDOW_UNDER_MOUSE = 1;
@@ -32,7 +30,7 @@ void ScrollForegroundWindow( int scrollDirection, double deltaMultiple )
 
 	mouseInput.type = INPUT_MOUSE;
 	mouseInput.mi.dwFlags = MOUSEEVENTF_WHEEL;
-	mouseInput.mi.mouseData = WHEEL_DELTA * deltaMultiple;
+	mouseInput.mi.mouseData = (DWORD) ( WHEEL_DELTA * deltaMultiple );
 	mouseInput.mi.dx = mousePosition.x;
 	mouseInput.mi.dy = mousePosition.y;
 	mouseInput.mi.time = 0;

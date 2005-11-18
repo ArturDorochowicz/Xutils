@@ -1,8 +1,6 @@
 
 #include "Xutils.h"
 
-#include <stdio.h>
-
 
 HANDLE OpenVolume(TCHAR cDriveLetter);
 BOOL LockVolume(HANDLE hVolume);

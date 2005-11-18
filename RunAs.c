@@ -1,7 +1,6 @@
 
 #include "Xutils.h"
 
-#include <stdio.h>
 #include <wincred.h>
 #include <Sddl.h>
 
@@ -46,6 +45,7 @@ BOOL CreateCredUILabel( const wchar_t * commandLine, wchar_t ** label )
 	if( NULL != ( *label = malloc( ( labelLength + 1 ) * sizeof( wchar_t ) ) ) )
 	{
 		wcsncpy( *label, commandLine, 1 + min( labelLength, CREDUI_MAX_MESSAGE_LENGTH ) );
+
 		isOk = TRUE;
 	}
 
@@ -75,14 +75,16 @@ BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const
 		credUIInfo.pszCaptionText = L"RunAs";
 		credUIInfo.hbmBanner = NULL;
 
-		if( TRUE == CreateCredUILabel( commandLine, &credUIInfo.pszMessageText ) )
+		if( TRUE == CreateCredUILabel( commandLine, &( (wchar_t*) credUIInfo.pszMessageText ) ) )
 		{
-			wchar_t userName [CREDUI_MAX_USERNAME_LENGTH + 1] = {0};
-			wchar_t password [CREDUI_MAX_PASSWORD_LENGTH + 1] = {0};
+			wchar_t userName [CREDUI_MAX_USERNAME_LENGTH + 1];
+			wchar_t password [CREDUI_MAX_PASSWORD_LENGTH + 1];
 			BOOL repeat = FALSE;
 
+			SecureZeroMemory( userName, sizeof( userName ) );
+			SecureZeroMemory( password, sizeof( password ) );
 			wcsncpy( userName, preselectedUserName, CREDUI_MAX_USERNAME_LENGTH + 1 );
-
+			
 			do
 			{
 				repeat = FALSE;
@@ -113,7 +115,7 @@ BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const
 						errCode = GetLastError( );
 						ShowLastError( );
 
-						if( ERROR_LOGON_FAILURE != errCode )
+						if( ERROR_LOGON_FAILURE == errCode )
 							repeat = TRUE;
 					}
 				}
@@ -123,7 +125,7 @@ BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const
 			SecureZeroMemory( userName, sizeof( userName) );
 			SecureZeroMemory( password, sizeof( password ) );
 		}
-		free( credUIInfo.pszMessageText );
+		free( (void*) credUIInfo.pszMessageText );
 	}
 	free( commandLine );
 
@@ -133,7 +135,7 @@ BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const
 /**
  * Run specified program using built-in local administrator account.
  */
-BOOL Sudo( const wchar_t * programPath, const wchar_t * programArguments, const wchar_t * workingDirectory )
+BOOL SuDo( const wchar_t * programPath, const wchar_t * programArguments, const wchar_t * workingDirectory )
 {
 	BOOL retVal = FALSE;
 
@@ -142,7 +144,7 @@ BOOL Sudo( const wchar_t * programPath, const wchar_t * programArguments, const 
 	int adminNameLength = sizeof( adminName ) / sizeof( wchar_t );
 	wchar_t domainName [CREDUI_MAX_USERNAME_LENGTH + 1];
 	int referencedDomainNameLength = sizeof( domainName ) / sizeof( wchar_t );
-	PSID_NAME_USE sidNameUse;
+	SID_NAME_USE sidNameUse;
 
 	if( ConvertStringSidToSid( SDDL_LOCAL_ADMIN, &adminSid ) )
 	{
@@ -196,14 +198,13 @@ _declspec( dllexport ) void sudo( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR)
 	**szargs = '\0';
 	PPServices = ppsv;
 
-
 	if( TRUE == CheckArgumentsCount( sudoService, nArgs ) )
 	{
 		if( ConvertMultiByteToWideChar( szargs[1], &programPath )
 			&& ConvertMultiByteToWideChar( szargs[2], &programArguments )
 			&& ConvertMultiByteToWideChar( szargs[3], &workingDirectory ) )
 		{
-			Sudo( programPath, programArguments, workingDirectory );
+			SuDo( programPath, programArguments, workingDirectory );
 		}
 
 		free( programPath );
@@ -214,8 +215,11 @@ _declspec( dllexport ) void sudo( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR)
 
 int main( int argc, char **argv )
 {
-	wchar_t * p;
+	wchar_t * p = L"uuu";
 
-	Sudo( L"c:\\windows\\system32\\cmd.exe", L"", L"" );
+	//SuDo( L"c:\\windows\\system32\\cmd.exe", L"", L"" );
+
+	BOOL i = ConvertMultiByteToWideChar( "", &p );
+
 	return 0;
 }

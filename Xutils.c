@@ -8,8 +8,8 @@
  */
 
 
-//#include <stdio.h>
 #include "Xutils.h"
+
 
 PowerProServices * PPServices = NULL;
 
@@ -29,27 +29,23 @@ void ShowErrorMessage( char * message )
 	}
 	else
 	{
-		MessageBox( 0, message, "Error", MB_OK );
+		MessageBox( 0, message, "Error", MB_OK | MB_ICONERROR );
 	}
 }
 
 void ShowLastError( )
 {
-	char buffer [1024];
-	void * messageBuffer;
-	DWORD errorCode = GetLastError( );
+	char * messageBuffer;
 
 	FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
 		NULL,
-		errorCode,
+		GetLastError( ),
 		MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),
-		(char * ) &messageBuffer,
+		(char*) &messageBuffer,
 		0, NULL );
 
-	sprintf( buffer, "Failed with error %d: %s", errorCode, messageBuffer );
+	ShowErrorMessage( messageBuffer );
 	LocalFree( messageBuffer );
-
-	ShowErrorMessage( buffer );
 }
 
 BOOL CheckArgumentsCount( Services service, int nArgs )
@@ -114,9 +110,8 @@ BOOL ConvertMultiByteToWideChar( const char * ansiStr, wchar_t ** wideStr )
 	int wideCharsNeeded = MultiByteToWideChar( CP_THREAD_ACP, MB_ERR_INVALID_CHARS, ansiStr, -1, NULL, 0 );
 
 	if( wideCharsNeeded > 0 )
-	{
-		*wideStr = malloc( wideCharsNeeded * sizeof( wchar_t ) );
-		if( *wideStr != NULL )
+	{		
+		if( NULL != ( *wideStr = malloc( wideCharsNeeded * sizeof( wchar_t ) ) ) )
 		{
 			if( 0 != MultiByteToWideChar( CP_THREAD_ACP, MB_ERR_INVALID_CHARS, ansiStr, -1, *wideStr, wideCharsNeeded ) )
 			{
@@ -125,7 +120,7 @@ BOOL ConvertMultiByteToWideChar( const char * ansiStr, wchar_t ** wideStr )
 			else
 			{
 				free( wideStr );
-				wideStr = NULL;
+				*wideStr = NULL;
 			}
 		}
 	}

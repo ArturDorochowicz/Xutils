@@ -10,6 +10,8 @@
 #ifndef XUTILS_H
 #define XUTILS_H
 
+#include <stdio.h>
+
 // need Windows XP and later APIs
 #define _WIN32_WINNT 0x0501
 #include <windows.h>
