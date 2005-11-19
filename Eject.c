@@ -50,9 +50,9 @@ HANDLE OpenVolume( char driveLetter )
 	return hVolume;
 }
 
-BOOL CloseVolume( HANDLE hVolume )
+BOOL CloseVolume( HANDLE volume )
 {
-	return CloseHandle( hVolume );
+	return CloseHandle( volume );
 }
 
 #define LOCK_TIMEOUT 10000       // 10 Seconds
@@ -100,7 +100,7 @@ BOOL PreventRemovalOfVolume( HANDLE hVolume, BOOL fPreventRemoval )
 	DWORD dwBytesReturned;
 	PREVENT_MEDIA_REMOVAL PMRBuffer;
 
-	PMRBuffer.PreventMediaRemoval = fPreventRemoval;
+	PMRBuffer.PreventMediaRemoval = (BOOLEAN) fPreventRemoval;
 
 	return DeviceIoControl( hVolume,
 		IOCTL_STORAGE_MEDIA_REMOVAL,
@@ -122,26 +122,7 @@ BOOL AutoEjectVolume( HANDLE hVolume )
 		NULL );
 }
 
-BOOL Load( char driveLetter )
-{
-	HANDLE hVolume;
-	DWORD bytesRet;
-	
-	// Open the volume.
-	hVolume = OpenVolume( driveLetter );
-	if( hVolume == INVALID_HANDLE_VALUE )
-		return FALSE;
-
-	DeviceIoControl( hVolume, IOCTL_STORAGE_LOAD_MEDIA, NULL, 0, NULL, 0, &bytesRet, NULL );
-	
-	// Close the volume so other processes can use the drive.
-	if( !CloseVolume( hVolume ) )
-		return FALSE;
-
-	return TRUE;
-}
-
-BOOL Eject( char driveLetter )
+BOOL EjectCd( char driveLetter )
 {
 	HANDLE hVolume;
 	BOOL fRemoveSafely = FALSE;
@@ -174,40 +155,66 @@ BOOL Eject( char driveLetter )
 	return TRUE;
 }
 
+BOOL LoadCd( char driveLetter )
+{
+	BOOL isOk = FALSE;
+	HANDLE volume;
+	DWORD bytesRet;
+	
+	// Open the volume.	
+	if( INVALID_HANDLE_VALUE != ( volume = OpenVolume( driveLetter ) ) )
+	{
+		if( DeviceIoControl( volume, IOCTL_STORAGE_LOAD_MEDIA, NULL, 0, NULL, 0, &bytesRet, NULL ) )
+		{
+			isOk = TRUE;
+		}
+	
+		// Close the volume so other processes can use the drive.
+		if( !CloseVolume( volume ) )
+			isOk = FALSE;
+	}
+
+	return isOk;
+}
+
 /*---------------------------------------------------------------------------*/
 
-_declspec( dllexport ) void eject( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
+_declspec( dllexport ) void ejectcd( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
 {
 	// return nothing
 	**szargs = '\0';
 	PPServices = ppsv;
 
-	if( TRUE == CheckArgumentsCount( ejectmediaService, nArgs ) )
+	if( TRUE == CheckArgumentsCount( ejectcdService, nArgs ) )
 	{
-		Eject( szargs[1][0] );
+		EjectCd( szargs[1][0] );
 	}
 }
 
-_declspec( dllexport ) void ejectmedia( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
+_declspec( dllexport ) void loadcd( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
 {
 	// return nothing
 	**szargs = '\0';
 	PPServices = ppsv;
 
-	if( TRUE == CheckArgumentsCount( ejectmediaService, nArgs ) )
+	if( TRUE == CheckArgumentsCount( loadcdService, nArgs ) )
 	{
-		Eject( szargs[1][0] );
+		LoadCd( szargs[1][0] );
 	}
 }
 
-_declspec( dllexport ) void loadmedia( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
-{
-	// return nothing
-	**szargs = '\0';
-	PPServices = ppsv;
 
-	if( TRUE == CheckArgumentsCount( loadmediaService, nArgs ) )
-	{
-		Load( szargs[1][0] );
-	}
+
+int main( int argc, char **argv )
+{	
+	OutputDebugString( "tttdasdasdasd" );
+	//SuDo( L"c:\\windows\\system32\\cmd.exe", L"", L"" );
+
+	EjectCd( 'x' );
+
+	Sleep( 3000 );
+
+	LoadCd( 'x' );
+
+	return 0;
 }

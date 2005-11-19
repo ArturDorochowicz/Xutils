@@ -11,7 +11,7 @@
 BOOL CreateCommandLine( const wchar_t * programPath, const wchar_t * programArguments, wchar_t ** commandLine )
 {
 	BOOL isOk = FALSE;
-	int programPathLength = wcslen( programPath );
+	size_t programPathLength = wcslen( programPath );
 
 	// commandLine = ["] + programPath + ["] + [space] + programArguments
 	*commandLine = malloc( ( programPathLength + wcslen( programArguments ) + 4 ) * sizeof( wchar_t ) );
@@ -41,7 +41,7 @@ BOOL CreateCredUILabel( const wchar_t * commandLine, wchar_t ** label )
 
 	// label = commandLine
 	// copy up to CREDUI_MAX_MESSAGE_LENGTH characters
-	int labelLength = wcslen( commandLine );
+	size_t labelLength = wcslen( commandLine );
 	if( NULL != ( *label = malloc( ( labelLength + 1 ) * sizeof( wchar_t ) ) ) )
 	{
 		wcsncpy( *label, commandLine, 1 + min( labelLength, CREDUI_MAX_MESSAGE_LENGTH ) );
@@ -141,9 +141,9 @@ BOOL SuDo( const wchar_t * programPath, const wchar_t * programArguments, const 
 
 	PSID adminSid = NULL;
 	wchar_t adminName [CREDUI_MAX_USERNAME_LENGTH + 1];
-	int adminNameLength = sizeof( adminName ) / sizeof( wchar_t );
+	DWORD adminNameLength = sizeof( adminName ) / sizeof( wchar_t );
 	wchar_t domainName [CREDUI_MAX_USERNAME_LENGTH + 1];
-	int referencedDomainNameLength = sizeof( domainName ) / sizeof( wchar_t );
+	DWORD referencedDomainNameLength = sizeof( domainName ) / sizeof( wchar_t );
 	SID_NAME_USE sidNameUse;
 
 	if( ConvertStringSidToSid( SDDL_LOCAL_ADMIN, &adminSid ) )
@@ -211,15 +211,4 @@ _declspec( dllexport ) void sudo( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR)
 		free( programArguments );
 		free( workingDirectory );
 	}
-}
-
-int main( int argc, char **argv )
-{
-	wchar_t * p = L"uuu";
-
-	//SuDo( L"c:\\windows\\system32\\cmd.exe", L"", L"" );
-
-	BOOL i = ConvertMultiByteToWideChar( "", &p );
-
-	return 0;
 }

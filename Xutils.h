@@ -20,9 +20,8 @@ typedef enum tagServices
 {
 	runasService,
 	sudoService,
-	ejectService,
-	ejectmediaService,
-	loadmediaService
+	ejectcdService,
+	loadcdService
 } Services;
 
 typedef struct tagPowerProServices
@@ -51,7 +50,7 @@ typedef struct tagPowerProServices
 	BOOL (*PumpMessages)();
 	BOOL (*RegForConfig)(void ( *callback )(PSTR szList), BOOL bReg );
 	void (*SetPreviousFocus)(HWND h );
-	UINT (*SetDebug)(PSTR sz,PSTR sz2 );
+	UINT (*SetDebug)(PSTR sz );
 	UINT (*ScriptCancel)(PSTR sz );
 	void (*GetCurrentDir)(HWND h,PSTR szt);
 } PowerProServices;
