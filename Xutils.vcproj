@@ -267,6 +267,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\IdleTimers.c"
+				>
+			</File>
+			<File
 				RelativePath=".\RunAs.c"
 				>
 			</File>

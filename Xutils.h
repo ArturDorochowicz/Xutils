@@ -21,7 +21,9 @@ typedef enum tagServices
 	runasService,
 	sudoService,
 	ejectcdService,
-	loadcdService
+	loadcdService,
+	disableidletimersService,
+	enableidletimersService
 } Services;
 
 typedef struct tagPowerProServices
