@@ -8,7 +8,7 @@ _declspec( dllexport ) void disableidletimers( PSTR szv, PSTR szx, BOOL (*GetVar
 	**szargs = '\0';
 	PPServices = ppsv;
 
-	if( CheckArgumentsCount( disableidletimersService, nArgs ) )
+	if( CheckArgumentsCount( ServiceDisableidletimers, nArgs ) )
 	{
 		SetThreadExecutionState( ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED | ES_CONTINUOUS );
 
@@ -26,7 +26,7 @@ _declspec( dllexport ) void enableidletimers( PSTR szv, PSTR szx, BOOL (*GetVar)
 	**szargs = '\0';
 	PPServices = ppsv;
 
-	if( CheckArgumentsCount( enableidletimersService, nArgs ) )
+	if( CheckArgumentsCount( ServiceEnableidletimers, nArgs ) )
 	{
 		SetThreadExecutionState( ES_CONTINUOUS );
 
@@ -36,18 +36,4 @@ _declspec( dllexport ) void enableidletimers( PSTR szv, PSTR szx, BOOL (*GetVar)
 			PPServices->RunCmd( "ScreenSaver.enable", NULL, NULL );
 		}
 	}
-}
-
-int main( int argc, char **argv )
-{	
-	//OutputDebugString( "tttdasdasdasd" );
-	//SuDo( L"c:\\windows\\system32\\cmd.exe", L"", L"" );
-
-//	EjectCd( argv[1][0] );
-
-	Sleep( 3000 );
-
-//	LoadCd( argv[1][0] );
-
-	return 0;
 }

@@ -1,25 +1,42 @@
 
 #include "Xutils.h"
 
+/*---------------------------------------------------------------------------*/
 
 HANDLE OpenCdVolume( char driveLetter )
 {
-	static char volumeFormat [] = "\\\\.\\%c:";
-	static char rootFormat [] = "%c:\\";
-
 	HANDLE volume = INVALID_HANDLE_VALUE;
-	char volumeName [8];
-	char rootName [5];
+	char volumeName [] = "\\\\.\\X:";
+	char rootName [] = "X:\\";
 
-	sprintf( rootName, rootFormat, driveLetter );
+	rootName[0] = driveLetter;
 
 	if( DRIVE_CDROM == GetDriveType( rootName ) )
 	{
-		sprintf( volumeName, volumeFormat, driveLetter );
+		volumeName[5] = driveLetter;
 		volume = CreateFile( volumeName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL );
 	}
 
 	return volume;
+}
+
+BOOL FindFirstCdDrive( char * cdDriveLetter )
+{
+	char rootName [] = "X:\\";
+	char driveLetter;
+
+	for( driveLetter = 'a'; driveLetter <= 'z'; ++driveLetter )
+	{
+		rootName[0] = driveLetter;
+
+		if( DRIVE_CDROM == GetDriveType( rootName ) )
+		{
+			*cdDriveLetter = driveLetter;
+			return TRUE;
+		}
+	}
+
+	return FALSE;
 }
 
 BOOL EjectCd( char driveLetter )
@@ -28,13 +45,11 @@ BOOL EjectCd( char driveLetter )
 	HANDLE volume;
 	DWORD bytesReturned;
 
-	// Open the volume.
 	if( INVALID_HANDLE_VALUE != ( volume = OpenCdVolume( driveLetter ) ) )
 	{
 		if( DeviceIoControl( volume, IOCTL_STORAGE_EJECT_MEDIA, NULL, 0, NULL, 0, &bytesReturned, NULL ) )
 			isOk = TRUE;
 
-		// Close the volume so other processes can use the drive.
 		if( !CloseHandle( volume ) )
 			isOk = FALSE;
 	}
@@ -48,13 +63,11 @@ BOOL LoadCd( char driveLetter )
 	HANDLE volume;
 	DWORD bytesReturned;
 	
-	// Open the volume.	
 	if( INVALID_HANDLE_VALUE != ( volume = OpenCdVolume( driveLetter ) ) )
 	{
 		if( DeviceIoControl( volume, IOCTL_STORAGE_LOAD_MEDIA, NULL, 0, NULL, 0, &bytesReturned, NULL ) )
 			isOk = TRUE;
 	
-		// Close the volume so other processes can use the drive.
 		if( !CloseHandle( volume ) )
 			isOk = FALSE;
 	}
@@ -70,9 +83,18 @@ _declspec( dllexport ) void ejectcd( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PS
 	**szargs = '\0';
 	PPServices = ppsv;
 
-	if( TRUE == CheckArgumentsCount( ejectcdService, nArgs ) )
+	if( CheckArgumentsCount( ServiceEjectcd, nArgs ) )
 	{
-		EjectCd( szargs[1][0] );
+		char cdDriveLetter;
+
+		if( 1 == nArgs && 1 == strlen( szargs[1] ) )
+		{
+			cdDriveLetter = tolower( szargs[1][0] );
+			if( cdDriveLetter >= 'a' && cdDriveLetter <= 'z' )
+				EjectCd( cdDriveLetter );
+		}
+		else if( 0 == nArgs && FindFirstCdDrive( &cdDriveLetter ) )
+			EjectCd( cdDriveLetter );
 	}
 }
 
@@ -82,8 +104,17 @@ _declspec( dllexport ) void loadcd( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PST
 	**szargs = '\0';
 	PPServices = ppsv;
 
-	if( TRUE == CheckArgumentsCount( loadcdService, nArgs ) )
+	if( CheckArgumentsCount( ServiceLoadcd, nArgs ) )
 	{
-		LoadCd( szargs[1][0] );
+		char cdDriveLetter;
+
+		if( 1 == nArgs && 1 == strlen( szargs[1] ) )
+		{
+			cdDriveLetter = tolower( szargs[1][0] );
+			if( cdDriveLetter >= 'a' && cdDriveLetter <= 'z' )
+				LoadCd( cdDriveLetter );
+		}
+		else if( 0 == nArgs && FindFirstCdDrive( &cdDriveLetter ) )
+			LoadCd( cdDriveLetter );
 	}
 }

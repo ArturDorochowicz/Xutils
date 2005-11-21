@@ -1,9 +1,8 @@
 /**
- * Xutils plugin for PowerPro
- * Version 0.1
+ * Xutils v0.1
+ * Copyright (C) 2005  Artur Dorochowicz
  *
- * Originally created by Artur Dorochowicz in 2005.
- * Public domain - no copyrights.
+ * Released under the terms of Lesser General Public License (LGPL).
  *
  */
 
@@ -18,12 +17,14 @@
 
 typedef enum tagServices
 {
-	runasService,
-	sudoService,
-	ejectcdService,
-	loadcdService,
-	disableidletimersService,
-	enableidletimersService
+	ServiceRunas,
+	ServiceSudo,
+	ServiceEjectcd,
+	ServiceLoadcd,
+	ServiceDisableidletimers,
+	ServiceEnableidletimers,
+	ServiceScrollup,
+	ServiceScrolldown
 } Services;
 
 typedef struct tagPowerProServices
@@ -64,7 +65,7 @@ extern PowerProServices * PPServices;
  * Message is displayed with PPServices->ErrMessage
  * or an ordinary MessageBox, when PPServices is NULL.
  */
-void ShowErrorMessage( char * message );
+void ShowErrorMessage( const char * message );
 
 /**
  * Format and display error message for error code obtained from GetLastError().

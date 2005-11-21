@@ -4,6 +4,8 @@
 #include <wincred.h>
 #include <Sddl.h>
 
+/*---------------------------------------------------------------------------*/
+
 /**
  * Prepare command line.
  * Caller is responsible for freeing allocated string.
@@ -171,7 +173,7 @@ _declspec( dllexport ) void runas( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR
 	**szargs = '\0';
 	PPServices = ppsv;
 
-	if( TRUE == CheckArgumentsCount( runasService, nArgs ) )
+	if( CheckArgumentsCount( ServiceRunas, nArgs ) )
 	{
 		if( ConvertMultiByteToWideChar( szargs[1], &programPath )
 			&& ConvertMultiByteToWideChar( szargs[2], &programArguments )
@@ -198,7 +200,7 @@ _declspec( dllexport ) void sudo( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR)
 	**szargs = '\0';
 	PPServices = ppsv;
 
-	if( TRUE == CheckArgumentsCount( sudoService, nArgs ) )
+	if( CheckArgumentsCount( ServiceSudo, nArgs ) )
 	{
 		if( ConvertMultiByteToWideChar( szargs[1], &programPath )
 			&& ConvertMultiByteToWideChar( szargs[2], &programArguments )
