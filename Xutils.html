@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Xutils plugin for PowerPro</title>
+<style type="text/css">
+<!--
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	font-size: 14px;
+	line-height: 130%;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	text-align:justify;
+}
+
+hr {
+	margin: 10px 0;
+}
+
+h1 {
+	margin-top: 20px;
+	margin-bottom: 2px;
+	font-size: 130%;
+	font-weight: bold;
+}
+
+.tableOfContents {
+	font-size: 110%;
+	margin-left: 35Px;
+}
+
+.servicesList {
+	margin-left: 35Px;
+}
+
+.section {
+	font-size: 18px;
+	font-weight: bold;
+	margin-top: 20px;
+	margin-bottom: 2px;
+}
+
+.serviceDescription {
+	margin-top: 8px;
+}
+
+.serviceDefinition {
+	background-color: #eee;
+	padding: 1px 3px;
+	font-weight: bold;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 110%;
+	margin-left: 5px;
+}
+
+.serviceDescriptionText {
+	margin-left: 15px;
+}
+
+.serviceArgumentsList {
+	list-style-type: none;
+	margin-left: 30px;
+}
+
+.serviceArgument {
+	font-family: "Courier New", Courier, monospace;
+}
+
+.versionsList {
+	list-style-type: square;
+	margin-left: 35px;
+}
+
+.changesList {
+	margin-left: 40px;
+}
+-->
+</style>
+</head>
+<body>
+<p>Xutils v1.0<br/>
+  Copyright &copy; 2005  Artur Dorochowicz</p>
+<hr/>
+<p> This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA </p>
+<hr/>
+<h1>Table of contents</h1>
+<ol class="tableOfContents">
+  <li>Overview</li>
+  <li>List of services</li>
+  <li>Installation</li>
+  <li>Description of services</li>
+  <li>History</li>
+  <li>Contacting the author</li>
+</ol>
+<hr/>
+<h1 class="section">1. Overview</h1>
+<p>Xutils plugin for PowerPro is a set of miscellaneous services.</p>
+<h1 class="section">2. List of services</h1>
+<ul class="servicesList">
+  <li>LoadCd</li>
+  <li>EjectCd</li>
+  <li>DisableIdleTimers</li>
+  <li>EnableIdleTimers</li>
+  <li>SuDo</li>
+  <li>RunAs</li>
+  <li>ScrollUp</li>
+  <li>ScrollDown</li>
+</ul>
+<h1 class="section">3. Installation</h1>
+<p>The plugin must be placed in PowerPro's 'plugins' directory. After that its services can be used just like services from any other plugin. Read PowerPro's help for general information on using plugins.</p>
+<h1 class="section">4. Description of services</h1>
+<div class="serviceDescription">
+  <div class="serviceDefinition">LoadCd( cdDriveLetter )</div>
+  <div class="serviceDescriptionText">Close door of specified CD drive. Without argument closes door of the first CD drive in the system</div>
+  <ul class="serviceArgumentsList">
+    <li><span class="serviceArgument">cdDriveLetter</span> - [optional] - letter of CD drive to use</li>
+  </ul>
+</div>
+<div class="serviceDescription">
+  <div class="serviceDefinition">EjectCd( cdDriveLetter )</div>
+  <div class="serviceDescriptionText">Eject CD in specified CD drive. Without argument ejects first CD drive in the system</div>
+  <ul class="serviceArgumentsList">
+    <li><span class="serviceArgument">cdDriveLetter</span> - [optional] - letter of CD drive to use</li>
+  </ul>
+</div>
+<div class="serviceDescription">
+  <div class="serviceDefinition">DisableIdleTimers( disableScreenSaver )</div>
+  <div class="serviceDescriptionText">Disables idle timers. There are two idle timers: system idle timer and display idle timer. Calling this service prevents the display from turning off and the system from going asleep.</div>
+  <ul class="serviceArgumentsList">
+    <li><span class="serviceArgument">disableScreenSaver</span> - [optional] - specify &quot;1&quot; to also disable screen saver</li>
+  </ul>
+</div>
+<div class="serviceDescription">
+  <div class="serviceDefinition">EnableIdleTimers( enableScreenSaver )</div>
+  <div class="serviceDescriptionText">Enables idle timers. Please note that the system keeps track of disabling requests on a per thread basis and calling this service does not enable idle timers system wise.</div>
+  <ul class="serviceArgumentsList">
+    <li><span class="serviceArgument">enableScreenSaver</span> - [optional] - specify &quot;1&quot; to also enable screen saver</li>
+  </ul>
+</div>
+<div class="serviceDescription">
+  <div class="serviceDefinition">SuDo( programPath, programArguments, workingDirectory )</div>
+  <div class="serviceDescriptionText">Starts an application under built-in local administrator account.</div>
+  <ul class="serviceArgumentsList">
+    <li><span class="serviceArgument">programPath</span> - [requiered] - path to executable to run</li>
+    <li><span class="serviceArgument">programArguments</span> - [optional] - arguments for the executable</li>
+    <li><span class="serviceArgument">workingDirectory</span> - [optional] - initial working directory for new process</li>
+  </ul>
+</div>
+<div class="serviceDescription">
+  <div class="serviceDefinition">RunAs( programPath, programArguments, userName, workingDirectory )</div>
+  <div class="serviceDescriptionText">Starts an application using given credentials.</div>
+  <ul class="serviceArgumentsList">
+    <li><span class="serviceArgument">programPath</span> - [requiered] - path to executable to run</li>
+    <li><span class="serviceArgument">programArguments</span> - [optional] - arguments for the executable</li>
+    <li><span class="serviceArgument">userName</span> - [optional] - name used in dialog prompting for credentials</li>
+    <li><span class="serviceArgument">workingDirectory</span> - [optional] - initial working directory for new process</li>
+  </ul>
+</div>
+<div class="serviceDescription">
+  <div class="serviceDefinition">ScrollUp( scrollLinesCount )</div>
+  <div class="serviceDescriptionText">Simulates scrolling up with mouse scroll wheel.</div>
+  <ul class="serviceArgumentsList">
+    <li><span class="serviceArgument">scrollLinesCount</span> - [optional] - specifies speed of scrolling. If this argument is not given, the service reads this value from system settings.</li>
+  </ul>
+</div>
+<div class="serviceDescription">
+  <div class="serviceDefinition">ScrollDown( scrollLinesCount )</div>
+  <div class="serviceDescriptionText">Simulates scrolling down with mouse scroll wheel.</div>
+  <ul class="serviceArgumentsList">
+    <li><span class="serviceArgument">scrollLinesCount</span> - [optional] - specifies speed of scrolling. If this argument is not given, the service reads this value from system settings.</li>
+  </ul>
+</div>
+<h1 class="section">4. History</h1>
+<ul class="versionsList">
+  <li>v 1.0
+    <ul class="changesList">
+      <li>Initial release</li>
+    </ul>
+  </li>
+</ul>
+<h1 class="section">5. Contacting the author</h1>
+<p>All comments, feature requests, bug reports are welcome and greatly appreciated.<br/>
+  Please use Yahoo PowerPro group for any of the above. </p>
+</body>
+</html>

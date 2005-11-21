@@ -178,20 +178,3 @@ BOOL ConvertMultiByteToWideChar( const char * ansiStr, wchar_t ** wideStr )
 
 	return isOk;
 }
-
-
-int main( int argc, char **argv )
-{	
-	//OutputDebugString( "tttdasdasdasd" );
-	//SuDo( L"c:\\windows\\system32\\cmd.exe", L"", L"" );
-
-//	EjectCd( argv[1][0] );
-char * p;
-	double pi = strtod( "asd", NULL);
-	int i = GetWheelScrollLines();
-	char pp;
-	BOOL ii = FindFirstCdDrive( &pp );
-//	LoadCd( argv[1][0] );
-
-	return 0;
-}
