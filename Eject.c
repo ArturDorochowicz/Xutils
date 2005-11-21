@@ -87,19 +87,3 @@ _declspec( dllexport ) void loadcd( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PST
 		LoadCd( szargs[1][0] );
 	}
 }
-
-
-
-int main( int argc, char **argv )
-{	
-	//OutputDebugString( "tttdasdasdasd" );
-	//SuDo( L"c:\\windows\\system32\\cmd.exe", L"", L"" );
-
-	EjectCd( argv[1][0] );
-
-	Sleep( 3000 );
-
-	LoadCd( argv[1][0] );
-
-	return 0;
-}

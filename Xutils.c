@@ -94,6 +94,26 @@ BOOL CheckArgumentsCount( Services service, int nArgs )
 		{
 			break;
 		}
+
+		case disableidletimersService:
+		{
+			if( nArgs > 1 )
+			{
+				nArgsOk = FALSE;
+				ShowErrorMessage( "The service needs at most one argument." );
+			}
+			break;
+		}
+
+		case enableidletimersService:
+		{
+			if( nArgs > 1 )
+			{
+				nArgsOk = FALSE;
+				ShowErrorMessage( "The service needs at most one argument." );
+			}
+			break;
+		}
 	}
 
 	return nArgsOk;
