@@ -12,11 +12,10 @@
 
 body {
 	font-size: 14px;
-	line-height: 130%;
+	line-height: 135%;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	width: 80%;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 10px auto;
 	text-align:justify;
 }
 
@@ -28,6 +27,11 @@ h1 {
 	margin-top: 20px;
 	margin-bottom: 2px;
 	font-size: 130%;
+	font-weight: bold;
+}
+
+.softwareName {
+	font-size: 120%;
 	font-weight: bold;
 }
 
@@ -53,6 +57,7 @@ h1 {
 
 .serviceDefinition {
 	background-color: #eee;
+	color: inherit;
 	padding: 1px 3px;
 	font-weight: bold;
 	font-family: "Courier New", Courier, monospace;
@@ -62,11 +67,13 @@ h1 {
 
 .serviceDescriptionText {
 	margin-left: 15px;
+	margin-right: 15px;
 }
 
 .serviceArgumentsList {
 	list-style-type: none;
 	margin-left: 30px;
+	margin-right: 15px;
 }
 
 .serviceArgument {
@@ -85,107 +92,108 @@ h1 {
 </style>
 </head>
 <body>
-<p>Xutils v1.0<br/>
-  Copyright &copy; 2005  Artur Dorochowicz</p>
+<p class="softwareName">Xutils v1.0</p>
+<p>Copyright &copy; 2005  Artur Dorochowicz</p>
 <hr/>
 <p> This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA </p>
 <hr/>
 <h1>Table of contents</h1>
 <ol class="tableOfContents">
-  <li>Overview</li>
-  <li>List of services</li>
-  <li>Installation</li>
-  <li>Description of services</li>
-  <li>History</li>
-  <li>Contacting the author</li>
+  <li><a href="#Overview">Overview</a></li>
+  <li><a href="#ListOfServices">List of services</a></li>
+  <li><a href="#Installation">Installation</a></li>
+  <li><a href="#DescriptionOfServices">Description of services</a></li>
+  <li><a href="#History">History</a></li>
+  <li><a href="#ContactingTheAuthor">Contacting the author</a></li>
 </ol>
 <hr/>
-<h1 class="section">1. Overview</h1>
-<p>Xutils plugin for PowerPro is a set of miscellaneous services.</p>
-<h1 class="section">2. List of services</h1>
+<h1 class="section">1. <a id="Overview">Overview</a></h1>
+<p>Xutils plugin for PowerPro is a set of miscellaneous services.<br/> It has been tested on Windows XP only. Some of the services require Windows XP or newer operating system.</p>
+<h1 class="section">2. <a id="ListOfServices">List of services</a></h1>
 <ul class="servicesList">
-  <li>LoadCd</li>
-  <li>EjectCd</li>
-  <li>DisableIdleTimers</li>
-  <li>EnableIdleTimers</li>
-  <li>SuDo</li>
-  <li>RunAs</li>
-  <li>ScrollUp</li>
-  <li>ScrollDown</li>
+  <li><a href="#EjectCd">EjectCd</a></li>
+  <li><a href="#LoadCd">LoadCd</a></li>
+  <li><a href="#EnableIdleTimers">EnableIdleTimers</a></li>
+  <li><a href="#DisableIdleTimers">DisableIdleTimers</a></li>
+  <li><a href="#RunAs">RunAs</a></li>
+  <li><a href="#SuDo">SuDo</a></li>
+  <li><a href="#ScrollDown">ScrollDown</a></li>
+  <li><a href="#ScrollUp">ScrollUp</a></li>
 </ul>
-<h1 class="section">3. Installation</h1>
-<p>The plugin must be placed in PowerPro's 'plugins' directory. After that its services can be used just like services from any other plugin. Read PowerPro's help for general information on using plugins.</p>
-<h1 class="section">4. Description of services</h1>
+<h1 class="section">3. <a id="Installation">Installation</a></h1>
+<p>The plugin must be placed in PowerPro's 'plugins' directory. After that its services can be used just like services of any other plugin. Read PowerPro's help for general information on using plugins.</p>
+<h1 class="section">4. <a id="DescriptionOfServices">Description of services</a></h1>
 <div class="serviceDescription">
-  <div class="serviceDefinition">LoadCd( cdDriveLetter )</div>
-  <div class="serviceDescriptionText">Close door of specified CD drive. Without argument closes door of the first CD drive in the system</div>
-  <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">cdDriveLetter</span> - [optional] - letter of CD drive to use</li>
-  </ul>
-</div>
-<div class="serviceDescription">
-  <div class="serviceDefinition">EjectCd( cdDriveLetter )</div>
+  <div class="serviceDefinition"><a id="EjectCd">EjectCd( cdDriveLetter )</a></div>
   <div class="serviceDescriptionText">Eject CD in specified CD drive. Without argument ejects first CD drive in the system</div>
   <ul class="serviceArgumentsList">
     <li><span class="serviceArgument">cdDriveLetter</span> - [optional] - letter of CD drive to use</li>
   </ul>
 </div>
 <div class="serviceDescription">
-  <div class="serviceDefinition">DisableIdleTimers( disableScreenSaver )</div>
-  <div class="serviceDescriptionText">Disables idle timers. There are two idle timers: system idle timer and display idle timer. Calling this service prevents the display from turning off and the system from going asleep.</div>
+  <div class="serviceDefinition"><a id="LoadCd">LoadCd( cdDriveLetter )</a></div>
+  <div class="serviceDescriptionText">Close door of specified CD drive. Without argument closes door of the first CD drive in the system</div>
   <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">disableScreenSaver</span> - [optional] - specify &quot;1&quot; to also disable screen saver</li>
+    <li><span class="serviceArgument">cdDriveLetter</span> - [optional] - letter of CD drive to use</li>
   </ul>
 </div>
 <div class="serviceDescription">
-  <div class="serviceDefinition">EnableIdleTimers( enableScreenSaver )</div>
+  <div class="serviceDefinition"><a id="EnableIdleTimers">EnableIdleTimers( enableScreenSaver )</a></div>
   <div class="serviceDescriptionText">Enables idle timers. Please note that the system keeps track of disabling requests on a per thread basis and calling this service does not enable idle timers system wise.</div>
   <ul class="serviceArgumentsList">
     <li><span class="serviceArgument">enableScreenSaver</span> - [optional] - specify &quot;1&quot; to also enable screen saver</li>
   </ul>
 </div>
 <div class="serviceDescription">
-  <div class="serviceDefinition">SuDo( programPath, programArguments, workingDirectory )</div>
-  <div class="serviceDescriptionText">Starts an application under built-in local administrator account.</div>
+  <div class="serviceDefinition"><a id="DisableIdleTimers">DisableIdleTimers( disableScreenSaver )</a></div>
+  <div class="serviceDescriptionText">Disables idle timers. There are two idle timers: system idle timer and display idle timer. Calling this service prevents the display from turning off and the system from going asleep.</div>
   <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">programPath</span> - [requiered] - path to executable to run</li>
+    <li><span class="serviceArgument">disableScreenSaver</span> - [optional] - specify &quot;1&quot; to also disable screen saver</li>
+  </ul>
+</div>
+<div class="serviceDescription">
+  <div class="serviceDefinition"><a id="RunAs">RunAs( programPath, programArguments, userName, workingDirectory )</a></div>
+  <div class="serviceDescriptionText">Starts an application using given credentials. The service asks for credentials.</div>
+  <ul class="serviceArgumentsList">
+    <li><span class="serviceArgument">programPath</span> - [required] - path to executable to run</li>
+    <li><span class="serviceArgument">programArguments</span> - [optional] - arguments for the executable</li>
+    <li><span class="serviceArgument">userName</span> - [optional] - user name used in dialog prompting for credentials</li>
+    <li><span class="serviceArgument">workingDirectory</span> - [optional] - initial working directory for new process</li>
+  </ul>
+</div>
+<div class="serviceDescription">
+  <div class="serviceDefinition"><a id="SuDo">SuDo( programPath, programArguments, workingDirectory )</a></div>
+  <div class="serviceDescriptionText">Starts an application using built-in local administrator account. The service asks for administrator's password.</div>
+  <ul class="serviceArgumentsList">
+    <li><span class="serviceArgument">programPath</span> - [required] - path to executable to run</li>
     <li><span class="serviceArgument">programArguments</span> - [optional] - arguments for the executable</li>
     <li><span class="serviceArgument">workingDirectory</span> - [optional] - initial working directory for new process</li>
   </ul>
 </div>
 <div class="serviceDescription">
-  <div class="serviceDefinition">RunAs( programPath, programArguments, userName, workingDirectory )</div>
-  <div class="serviceDescriptionText">Starts an application using given credentials.</div>
-  <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">programPath</span> - [requiered] - path to executable to run</li>
-    <li><span class="serviceArgument">programArguments</span> - [optional] - arguments for the executable</li>
-    <li><span class="serviceArgument">userName</span> - [optional] - name used in dialog prompting for credentials</li>
-    <li><span class="serviceArgument">workingDirectory</span> - [optional] - initial working directory for new process</li>
-  </ul>
-</div>
-<div class="serviceDescription">
-  <div class="serviceDefinition">ScrollUp( scrollLinesCount )</div>
-  <div class="serviceDescriptionText">Simulates scrolling up with mouse scroll wheel.</div>
-  <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">scrollLinesCount</span> - [optional] - specifies speed of scrolling. If this argument is not given, the service reads this value from system settings.</li>
-  </ul>
-</div>
-<div class="serviceDescription">
-  <div class="serviceDefinition">ScrollDown( scrollLinesCount )</div>
+  <div class="serviceDefinition"><a id="ScrollDown">ScrollDown( scrollLinesCount )</a></div>
   <div class="serviceDescriptionText">Simulates scrolling down with mouse scroll wheel.</div>
   <ul class="serviceArgumentsList">
     <li><span class="serviceArgument">scrollLinesCount</span> - [optional] - specifies speed of scrolling. If this argument is not given, the service reads this value from system settings.</li>
   </ul>
 </div>
-<h1 class="section">4. History</h1>
+<div class="serviceDescription">
+  <div class="serviceDefinition"><a id="ScrollUp">ScrollUp( scrollLinesCount )</a></div>
+  <div class="serviceDescriptionText">Simulates scrolling up with mouse scroll wheel.</div>
+  <ul class="serviceArgumentsList">
+    <li><span class="serviceArgument">scrollLinesCount</span> - [optional] - specifies speed of scrolling. If this argument is not given, the service reads this value from system settings.</li>
+  </ul>
+</div>
+<h1 class="section">5. <a id="History">History</a></h1>
 <ul class="versionsList">
-  <li>v 1.0
+  <li>v 1.0  2005-11-22
     <ul class="changesList">
       <li>Initial release</li>
+      <li>Hardly any error reporting</li>
     </ul>
   </li>
 </ul>
-<h1 class="section">5. Contacting the author</h1>
+<h1 class="section">6. <a id="ContactingTheAuthor">Contacting the author</a></h1>
 <p>All comments, feature requests, bug reports are welcome and greatly appreciated.<br/>
   Please use Yahoo PowerPro group for any of the above. </p>
 </body>
