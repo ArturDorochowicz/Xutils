@@ -1,9 +1,8 @@
 /**
- * Xutils plugin for PowerPro
- * Version 0.1
+ * Xutils
+ * Copyright (C) 2005  Artur Dorochowicz
  *
- * Originally created by Artur Dorochowicz in 2005.
- * Public domain - no copyrights.
+ * Released under the terms of Lesser General Public License (LGPL).
  *
  */
 

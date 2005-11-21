@@ -1,10 +1,11 @@
 /**
- * Xutils v0.1
+ * Xutils
  * Copyright (C) 2005  Artur Dorochowicz
  *
  * Released under the terms of Lesser General Public License (LGPL).
  *
  */
+
 
 #ifndef XUTILS_H
 #define XUTILS_H

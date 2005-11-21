@@ -1,3 +1,11 @@
+/**
+ * Xutils
+ * Copyright (C) 2005  Artur Dorochowicz
+ *
+ * Released under the terms of Lesser General Public License (LGPL).
+ *
+ */
+
 
 #include "Xutils.h"
 
