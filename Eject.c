@@ -21,7 +21,7 @@ HANDLE OpenCdVolume( char driveLetter )
 
 	if( DRIVE_CDROM == GetDriveType( rootName ) )
 	{
-		volumeName[5] = driveLetter;
+		volumeName[4] = driveLetter;
 		volume = CreateFile( volumeName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL );
 	}
 
@@ -33,7 +33,7 @@ BOOL FindFirstCdDrive( char * cdDriveLetter )
 	char rootName [] = "X:\\";
 	char driveLetter;
 
-	for( driveLetter = 'a'; driveLetter <= 'z'; ++driveLetter )
+	for( driveLetter = 'A'; driveLetter <= 'Z'; ++driveLetter )
 	{
 		rootName[0] = driveLetter;
 
@@ -97,8 +97,8 @@ _declspec( dllexport ) void ejectcd( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PS
 
 		if( 1 == nArgs && 1 == strlen( szargs[1] ) )
 		{
-			cdDriveLetter = tolower( szargs[1][0] );
-			if( cdDriveLetter >= 'a' && cdDriveLetter <= 'z' )
+			cdDriveLetter = toupper( szargs[1][0] );
+			if( cdDriveLetter >= 'A' && cdDriveLetter <= 'Z' )
 				EjectCd( cdDriveLetter );
 		}
 		else if( 0 == nArgs && FindFirstCdDrive( &cdDriveLetter ) )
