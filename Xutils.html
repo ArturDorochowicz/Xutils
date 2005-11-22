@@ -130,28 +130,28 @@ p {
 <h1 class="section">4. <a id="DescriptionOfServices">Description of services</a></h1>
 <div class="serviceDescription">
   <div class="serviceDefinition"><a id="EjectCd">EjectCd( cdDriveLetter )</a></div>
-  <div class="serviceDescriptionText">Eject CD in specified CD drive. Without argument ejects first CD drive in the system</div>
+  <div class="serviceDescriptionText">Ejects CD in the specified CD drive. Without argument ejects first CD drive in the system.</div>
   <ul class="serviceArgumentsList">
     <li><span class="serviceArgument">cdDriveLetter</span> - [optional] - letter of CD drive to use</li>
   </ul>
 </div>
 <div class="serviceDescription">
   <div class="serviceDefinition"><a id="LoadCd">LoadCd( cdDriveLetter )</a></div>
-  <div class="serviceDescriptionText">Close door of specified CD drive. Without argument closes door of the first CD drive in the system</div>
+  <div class="serviceDescriptionText">Closes door of specified CD drive. Without argument closes door of the first CD drive in the system.</div>
   <ul class="serviceArgumentsList">
     <li><span class="serviceArgument">cdDriveLetter</span> - [optional] - letter of CD drive to use</li>
   </ul>
 </div>
 <div class="serviceDescription">
   <div class="serviceDefinition"><a id="EnableIdleTimers">EnableIdleTimers( enableScreenSaver )</a></div>
-  <div class="serviceDescriptionText">Enables idle timers. Please note that the system keeps track of disabling requests on a per thread basis and calling this service does not enable idle timers system wise.</div>
+  <div class="serviceDescriptionText">Enables operating system idle timers. There are two idle timers: system idle timer and display idle timer, their timeout values can be defined in Power Management applet of Windows Control Panel. Calling this service after DisableIdleTimers() reenables the system to use the idle timers. Please note that the system keeps track of disabling/enabling requests on a per thread basis and calling this service might not enable idle timers, if other thread requested disabling them.</div>
   <ul class="serviceArgumentsList">
     <li><span class="serviceArgument">enableScreenSaver</span> - [optional] - specify &quot;1&quot; to also enable screen saver</li>
   </ul>
 </div>
 <div class="serviceDescription">
   <div class="serviceDefinition"><a id="DisableIdleTimers">DisableIdleTimers( disableScreenSaver )</a></div>
-  <div class="serviceDescriptionText">Disables idle timers. There are two idle timers: system idle timer and display idle timer. Calling this service prevents the display from turning off and the system from going asleep.</div>
+  <div class="serviceDescriptionText">Disables operating system idle timers. There are two idle timers: system idle timer and display idle timer, their timeout values can be defined in Power Management applet of Windows Control Panel. Calling this service prevents the system from entering the sleeping power state or turning off the display.</div>
   <ul class="serviceArgumentsList">
     <li><span class="serviceArgument">disableScreenSaver</span> - [optional] - specify &quot;1&quot; to also disable screen saver</li>
   </ul>
