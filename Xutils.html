@@ -56,17 +56,26 @@ p {
 }
 
 .serviceDescription {
-	margin-top: 8px;
+	margin-top: 15px;
+}         
+
+.serviceDescription h4 {  
+	margin-top: 4px;
+	margin-left: 5px;
+	font-size: 85%;
+	font-weight: bold; 	
 }
 
 .serviceDefinition {
 	background-color: #eee;
 	color: inherit;
-	padding: 1px 3px;
+	padding: 2px 5px;
 	font-weight: bold;
 	font-family: "Courier New", Courier, monospace;
-	font-size: 110%;
+	font-size: 110%; 
 	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 2px;
 }
 
 .serviceDescriptionText {
@@ -76,12 +85,21 @@ p {
 
 .serviceArgumentsList {
 	list-style-type: none;
-	margin-left: 30px;
+	margin-left: 15px;
 	margin-right: 15px;
 }
 
-.serviceArgument {
-	font-family: "Courier New", Courier, monospace;
+.serviceArgumentsList li {
+	margin-top: 5px;
+}
+
+.serviceArgument {     
+	font-size: 90%;
+	font-style: italic;       	
+}                 
+
+.serviceArgumentDescription {    
+	margin-left: 30px;
 }
 
 .versionsList {
@@ -130,71 +148,132 @@ p {
 <h1 class="section">4. <a id="DescriptionOfServices">Description of services</a></h1>
 <div class="serviceDescription">
   <div class="serviceDefinition"><a id="EjectCd">EjectCd( cdDriveLetter )</a></div>
-  <div class="serviceDescriptionText">Ejects CD in the specified CD drive. Without argument ejects first CD drive in the system.</div>
+  <div class="serviceDescriptionText">Ejects CD in the specified CD drive. Without parameter ejects first CD drive in the system.</div>
+  <h4>Parameters</h4>
   <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">cdDriveLetter</span> - [optional] - letter of CD drive to use</li>
+    <li>
+    	<div class="serviceArgument">cdDriveLetter</div>
+    	<div class="serviceArgumentDescription">[optional] Letter of CD drive to use.</div>
+    </li>
   </ul>
+  <h4>Return value</h4>
+  <div class="serviceDescriptionText">No return value.</div>
 </div>
 <div class="serviceDescription">
   <div class="serviceDefinition"><a id="LoadCd">LoadCd( cdDriveLetter )</a></div>
-  <div class="serviceDescriptionText">Closes door of specified CD drive. Without argument closes door of the first CD drive in the system.</div>
+  <div class="serviceDescriptionText">Closes door of specified CD drive. Without parameter closes door of the first CD drive in the system.</div>
+  <h4>Parameters</h4>
   <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">cdDriveLetter</span> - [optional] - letter of CD drive to use</li>
-  </ul>
+    <li>
+    	<div class="serviceArgument">cdDriveLetter</div>
+    	<div class="serviceArgumentDescription">[optional] Letter of CD drive to use.</div>
+    </li>
+  </ul>          
+  <h4>Return value</h4>
+  <div class="serviceDescriptionText">No return value.</div>
 </div>
 <div class="serviceDescription">
   <div class="serviceDefinition"><a id="EnableIdleTimers">EnableIdleTimers( enableScreenSaver )</a></div>
   <div class="serviceDescriptionText">Enables operating system idle timers. There are two idle timers: system idle timer and display idle timer, their timeout values can be defined in Power Management applet of Windows Control Panel. Calling this service after DisableIdleTimers() reenables the system to use the idle timers. Please note that the system keeps track of disabling/enabling requests on a per thread basis and calling this service might not enable idle timers, if other thread requested disabling them.</div>
+<h4>Parameters</h4>
   <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">enableScreenSaver</span> - [optional] - specify &quot;1&quot; to also enable screen saver</li>
+    <li>
+    	<div class="serviceArgument">enableScreenSaver</div>
+    	<div class="serviceArgumentDescription">[optional] Specify &quot;1&quot; to also enable screen saver.</div>
+    </li>
   </ul>
 </div>
 <div class="serviceDescription">
   <div class="serviceDefinition"><a id="DisableIdleTimers">DisableIdleTimers( disableScreenSaver )</a></div>
   <div class="serviceDescriptionText">Disables operating system idle timers. There are two idle timers: system idle timer and display idle timer, their timeout values can be defined in Power Management applet of Windows Control Panel. Calling this service prevents the system from entering the sleeping power state or turning off the display.</div>
+  <h4>Parameters</h4>
   <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">disableScreenSaver</span> - [optional] - specify &quot;1&quot; to also disable screen saver</li>
-  </ul>
+    <li>
+    	<div class="serviceArgument">disableScreenSaver</div>
+    	<div class="serviceArgumentDescription">[optional] Specify &quot;1&quot; to also disable screen saver.</div>
+    </li>
+  </ul>            
+  <h4>Return value</h4>
+  <div class="serviceDescriptionText">No return value.</div>
 </div>
 <div class="serviceDescription">
   <div class="serviceDefinition"><a id="RunAs">RunAs( programPath, programArguments, userName, workingDirectory )</a></div>
   <div class="serviceDescriptionText">Starts an application using given credentials. The service asks for credentials.</div>
+  <h4>Parameters</h4>
   <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">programPath</span> - [required] - path to executable to run</li>
-    <li><span class="serviceArgument">programArguments</span> - [optional] - arguments for the executable</li>
-    <li><span class="serviceArgument">userName</span> - [optional] - user name used in dialog prompting for credentials</li>
-    <li><span class="serviceArgument">workingDirectory</span> - [optional] - initial working directory for new process</li>
-  </ul>
+    <li>
+    	<div class="serviceArgument">programPath</div>
+    	<div class="serviceArgumentDescription">[required] Path to executable to run.</div>
+    </li>
+    <li>
+   	<div class="serviceArgument">programArguments</div>
+   	<div class="serviceArgumentDescription">[optional] Arguments for the executable.</div>
+    </li>
+    <li>
+    	<div class="serviceArgument">userName</div>
+    	<div class="serviceArgumentDescription">[optional] User name used in dialog prompting for credentials.</div>
+    </li>
+    <li>
+    	<div class="serviceArgument">workingDirectory</div>
+    	<div class="serviceArgumentDescription">[optional] Initial working directory for the new process.</div>
+    </li>
+  </ul>     
+  <h4>Return value</h4>
+  <div class="serviceDescriptionText">No return value.</div>
 </div>
 <div class="serviceDescription">
   <div class="serviceDefinition"><a id="SuDo">SuDo( programPath, programArguments, workingDirectory )</a></div>
   <div class="serviceDescriptionText">Starts an application using built-in local administrator account. The service asks for administrator's password.</div>
+  <h4>Parameters</h4>
   <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">programPath</span> - [required] - path to executable to run</li>
-    <li><span class="serviceArgument">programArguments</span> - [optional] - arguments for the executable</li>
-    <li><span class="serviceArgument">workingDirectory</span> - [optional] - initial working directory for new process</li>
+    <li>
+    	<div class="serviceArgument">programPath</div>
+    	<div class="serviceArgumentDescription">[required] Path to executable to run.</div>
+    </li>
+    <li>
+    	<div class="serviceArgument">programArguments</div>
+    	<div class="serviceArgumentDescription">[optional] Arguments for the executable.</div>
+    </li>
+    <li>
+    	<div class="serviceArgument">workingDirectory</div>
+    	<div class="serviceArgumentDescription">[optional] Initial working directory for the new process.</div>
+    </li>
   </ul>
+  <h4>Return value</h4>
+  <div class="serviceDescriptionText">No return value.</div>
 </div>
 <div class="serviceDescription">
   <div class="serviceDefinition"><a id="ScrollDown">ScrollDown( scrollLinesCount )</a></div>
   <div class="serviceDescriptionText">Simulates scrolling down with mouse scroll wheel.</div>
+  <h4>Parameters</h4>
   <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">scrollLinesCount</span> - [optional] - specifies speed of scrolling. If this argument is not given, the service reads this value from system settings.</li>
+    <li>
+    	<div class="serviceArgument">scrollLinesCount</div>
+    	<div class="serviceArgumentDescription">[optional] Specifies the speed of scrolling. If this parameter is not given, the service reads the value from system settings.</div>
+    </li>
   </ul>
+    <h4>Return value</h4>
+  <div class="serviceDescriptionText">No return value.</div>
 </div>
 <div class="serviceDescription">
   <div class="serviceDefinition"><a id="ScrollUp">ScrollUp( scrollLinesCount )</a></div>
   <div class="serviceDescriptionText">Simulates scrolling up with mouse scroll wheel.</div>
+  <h4>Parameters</h4>
   <ul class="serviceArgumentsList">
-    <li><span class="serviceArgument">scrollLinesCount</span> - [optional] - specifies speed of scrolling. If this argument is not given, the service reads this value from system settings.</li>
-  </ul>
+    <li>
+    	<div class="serviceArgument">scrollLinesCount</div>
+    	<div class="serviceArgumentDescription">[optional] Specifies speed of scrolling. If this parameter is not given, the service reads the value  from system settings.</div>
+    </li>
+  </ul>                                                     
+    <h4>Return value</h4>
+  <div class="serviceDescriptionText">No return value.</div>
 </div>
 <h1 class="section">5. <a id="History">History</a></h1>
 <ul class="versionsList">
   <li>v 1.0  2005-11-22
     <ul class="changesList">
-      <li>Initial release</li>
-      <li>Hardly any error reporting</li>
+      <li>Initial release.</li>
+      <li>Hardly any error reporting.</li>
     </ul>
   </li>
 </ul>
