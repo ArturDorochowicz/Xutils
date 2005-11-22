@@ -23,7 +23,7 @@ _declspec( dllexport ) void disableidletimers( PSTR szv, PSTR szx, BOOL (*GetVar
 		if( 1 == strlen( szargs[1] ) && szargs[1][0] == '1' )
 		{
 			// use PP's built-in functionality
-			PPServices->RunCmd( "ScreenSaver.disable", NULL, NULL );
+			PPServices->RunCmd( "ScreenSaver.disable", "", "" );
 		}
 	}
 }
@@ -41,7 +41,7 @@ _declspec( dllexport ) void enableidletimers( PSTR szv, PSTR szx, BOOL (*GetVar)
 		if( 1 == strlen( szargs[1] ) && szargs[1][0] == '1' )
 		{
 			// use PP's built-in functionality
-			PPServices->RunCmd( "ScreenSaver.enable", NULL, NULL );
+			PPServices->RunCmd( "ScreenSaver.enable", "", "" );
 		}
 	}
 }
