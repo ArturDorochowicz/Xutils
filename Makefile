@@ -1,6 +1,6 @@
 LIBS = kernel32.lib shell32.lib user32.lib advapi32.lib credui.lib
-LIBPATH = c:\Program Files\Microsoft Platform SDK\Lib
-INCLUDEPATH = c:\Program Files\Microsoft Platform SDK\Include
+LIBPATH = c:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\Lib
+INCLUDEPATH = c:\Program Files\Microsoft Visual Studio 8\VC\PlatformSDK\Include
 OBJS = Eject.obj IdleTimers.obj Wheel.obj RunAs.obj Xutils.obj
 
 all: DLL clean
