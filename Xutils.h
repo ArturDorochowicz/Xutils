@@ -1,6 +1,6 @@
 /**
  * Xutils
- * Copyright (C) 2005  Artur Dorochowicz
+ * Copyright (C) Artur Dorochowicz
  *
  * Released under the terms of Lesser General Public License (LGPL).
  *
@@ -15,6 +15,7 @@
 // need Windows XP and later APIs
 #define _WIN32_WINNT 0x0501
 #include <windows.h>
+
 
 typedef enum tagServices
 {
@@ -84,4 +85,4 @@ BOOL CheckArgumentsCount( Services service, int nArgs );
  */
 BOOL ConvertMultiByteToWideChar( const char * ansiStr, wchar_t ** wideStr );
 
-#endif // #ifndef XUTILS_H
+#endif   // #ifndef XUTILS_H
