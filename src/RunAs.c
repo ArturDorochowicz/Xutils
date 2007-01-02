@@ -118,6 +118,8 @@ BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const
 						programPath, commandLine,
 						0, NULL, workingDirectory, &startupInfo, &processInfo ) )
 					{
+						CloseHandle( processInfo.hProcess );
+						CloseHandle( processInfo.hThread );
 						isOk = TRUE;
 					}
 					else
