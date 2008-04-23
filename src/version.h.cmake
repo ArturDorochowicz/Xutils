@@ -22,36 +22,17 @@
 **/
 
 
-#include "Xutils.h"
+#ifndef _VERSION_H_
+#define _VERSION_H_
 
 
-BEGIN_PPRO_SVC( disableidletimers )
-{
-	if( CheckArgumentsCount( ServiceDisableidletimers, &pp ) )
-	{
-		SetThreadExecutionState( ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED | ES_CONTINUOUS );
+#define XUTILS_VERSION_MAJOR     ${XUTILS_VERSION_MAJOR}
+#define XUTILS_VERSION_MINOR     ${XUTILS_VERSION_MINOR}
+#define XUTILS_VERSION_BUILD     ${XUTILS_VERSION_BUILD}
+#define XUTILS_VERSION_REVISION  ${XUTILS_VERSION_REVISION}
+#define XUTILS_VERSION_STRING    "${XUTILS_VERSION_MAJOR}.${XUTILS_VERSION_MINOR}.${XUTILS_VERSION_BUILD}"
 
-		if( 1 == strlen( pp.argv[0] ) && pp.argv[0][0] == '1' )
-		{
-			// use PP's built-in functionality
-			pp.svcs->RunCmd( "ScreenSaver.disable", "", "" );
-		}
-	}
-}
-END_PPRO_SVC
+#define XUTILS_COPYRIGHT_YEARS_STRING   "2005-${CURRENT_YEAR}"
 
 
-BEGIN_PPRO_SVC( enableidletimers )
-{
-	if( CheckArgumentsCount( ServiceEnableidletimers, &pp ) )
-	{
-		SetThreadExecutionState( ES_CONTINUOUS );
-
-		if( 1 == strlen( pp.argv[0] ) && pp.argv[0][0] == '1' )
-		{
-			// use PP's built-in functionality
-			pp.svcs->RunCmd( "ScreenSaver.enable", "", "" );
-		}
-	}
-}
-END_PPRO_SVC
+#endif   /* #ifndef _VERSION_H_ */

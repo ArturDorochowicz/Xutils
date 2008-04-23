@@ -1,15 +1,33 @@
-/**
- * Xutils
- * Copyright (C) Artur Dorochowicz
+/* Xutils Plugin for PowerPro
+ * Copyright (c) 2005-2008 Artur Dorochowicz
  *
- * Released under the terms of Lesser General Public License (LGPL).
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
- */
+**/
 
+
+/* needed for INPUT & POINT in VC6&Feb2003SDK */
+#define _WIN32_WINNT  0x0501
+#include <Windows.h>
 
 #include "Xutils.h"
 
-/*---------------------------------------------------------------------------*/
 
 typedef enum tagScrollDirections
 {
@@ -58,20 +76,18 @@ int GetWheelScrollLines( )
 	return scrollLines;
 }
 
+
 /*---------------------------------------------------------------------------*/
 
-_declspec(dllexport) void scrollup( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
-{
-	// return nothing
-	**szargs = '\0';
-	PPServices = ppsv;
 
-	if( CheckArgumentsCount( ServiceScrollup, nArgs ) )
+BEGIN_PPRO_SVC( scrollup )
+{
+	if( CheckArgumentsCount( ServiceScrollup, &pp ) )
 	{
 		double scrollLines;
 
 		// get the argument or read it from the system
-		scrollLines = strtod( szargs[1], NULL );
+		scrollLines = pp.svcs->DecodeFloat( pp.argv[0] );
 		
 		if( 0 == scrollLines )
 			scrollLines = GetWheelScrollLines( );
@@ -79,19 +95,17 @@ _declspec(dllexport) void scrollup( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PST
 		Scroll( SCROLL_UP, scrollLines );	
 	}
 }
+END_PPRO_SVC
 
-_declspec(dllexport) void scrolldown( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
+
+BEGIN_PPRO_SVC( scrolldown )
 {
-	// return nothing
-	**szargs = '\0';
-	PPServices = ppsv;
-
-	if( CheckArgumentsCount( ServiceScrolldown, nArgs ) )
+	if( CheckArgumentsCount( ServiceScrolldown, &pp ) )
 	{
 		double scrollLines;
 
 		// get the argument or read it from the system
-		scrollLines = strtod( szargs[1], NULL );
+		scrollLines = pp.svcs->DecodeFloat( pp.argv[0] );
 		
 		if( 0 == scrollLines )
 			scrollLines = GetWheelScrollLines( );
@@ -99,3 +113,4 @@ _declspec(dllexport) void scrolldown( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, P
 		Scroll( SCROLL_DOWN, scrollLines );	
 	}
 }
+END_PPRO_SVC

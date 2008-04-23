@@ -1,13 +1,38 @@
+/* Xutils Plugin for PowerPro
+ * Copyright (c) 2005-2008 Artur Dorochowicz
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+**/
+
+
 #include <Windows.h>
 
 #include "version.h"
 
 
+// English (U.K.) resources
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION     XUTILS_MAJOR_VERSION,XUTILS_MINOR_VERSION,XUTILS_REVISION,0
-PRODUCTVERSION  XUTILS_MAJOR_VERSION,XUTILS_MINOR_VERSION,XUTILS_REVISION,0
+FILEVERSION     XUTILS_VERSION_MAJOR,XUTILS_VERSION_MINOR,XUTILS_VERSION_BUILD,XUTILS_VERSION_REVISION
+PRODUCTVERSION  XUTILS_VERSION_MAJOR,XUTILS_VERSION_MINOR,XUTILS_VERSION_BUILD,XUTILS_VERSION_REVISION
 FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
 FILEOS          VOS__WINDOWS32
 FILETYPE        VFT_DLL
@@ -15,20 +40,21 @@ FILESUBTYPE     VFT2_UNKNOWN
 BEGIN
   BLOCK "StringFileInfo"
   BEGIN
-    BLOCK "080904b0"
+    BLOCK "080904b0"   //"languageID" '+' "charsetID" - (U.K. English,Unicode)
     BEGIN
-      VALUE "CompanyName",      "x-phile"
-      VALUE "FileDescription",  "Xutils Plugin"
-      VALUE "FileVersion",      XUTILS_VERSION
-      VALUE "InternalName",     "Xutils Plugin"
-      VALUE "LegalCopyright",   "Copyright © 2005-2006 Artur Dorochowicz"    
+      //add standard values
+      VALUE "CompanyName",      ""
+      VALUE "FileDescription",  "Xutils Plugin for PowerPro"
+	  VALUE "InternalName",     "Xutils Plugin for PowerPro"
+	  VALUE "ProductName",      "Xutils Plugin for PowerPro"
+      VALUE "ProductVersion",   XUTILS_VERSION_STRING
+	  VALUE "FileVersion",      XUTILS_VERSION_STRING
+      VALUE "LegalCopyright",   "Copyright © " XUTILS_COPYRIGHT_YEARS_STRING " Artur Dorochowicz"
       VALUE "OriginalFilename", "Xutils.dll"
-      VALUE "ProductName",      "Xutils Plugin"
-      VALUE "ProductVersion",   XUTILS_VERSION
     END
   END
   BLOCK "VarFileInfo"
   BEGIN
-    VALUE "Translation", 0x809, 0x4b0
+    VALUE "Translation", 0x809, 0x4b0     //languageID, charsetID (U.K. English(2057),Unicode(1200))
   END
 END

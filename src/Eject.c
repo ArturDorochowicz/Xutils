@@ -1,15 +1,32 @@
-/**
- * Xutils
- * Copyright (C) Artur Dorochowicz
+/* Xutils Plugin for PowerPro
+ * Copyright (c) 2005-2008 Artur Dorochowicz
  *
- * Released under the terms of Lesser General Public License (LGPL).
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
- */
+**/
 
 
 #include "Xutils.h"
 
-/*---------------------------------------------------------------------------*/
+
+#include <Winioctl.h>
+
 
 HANDLE OpenCdVolume( char driveLetter )
 {
@@ -85,44 +102,40 @@ BOOL LoadCd( char driveLetter )
 
 /*---------------------------------------------------------------------------*/
 
-_declspec( dllexport ) void ejectcd( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
-{
-	// return nothing
-	**szargs = '\0';
-	PPServices = ppsv;
 
-	if( CheckArgumentsCount( ServiceEjectcd, nArgs ) )
+BEGIN_PPRO_SVC( ejectcd )
+{
+	if( CheckArgumentsCount( ServiceEjectcd, &pp ) )
 	{
 		char cdDriveLetter;
 
-		if( 1 == nArgs && 1 == strlen( szargs[1] ) )
+		if( 1 == pp.argc && 1 == strlen( pp.argv[0] ) )
 		{
-			cdDriveLetter = toupper( szargs[1][0] );
+			cdDriveLetter = toupper( pp.argv[0][0] );
 			if( cdDriveLetter >= 'A' && cdDriveLetter <= 'Z' )
 				EjectCd( cdDriveLetter );
 		}
-		else if( 0 == nArgs && FindFirstCdDrive( &cdDriveLetter ) )
+		else if( 0 == pp.argc && FindFirstCdDrive( &cdDriveLetter ) )
 			EjectCd( cdDriveLetter );
 	}
 }
+END_PPRO_SVC
 
-_declspec( dllexport ) void loadcd( PSTR szv, PSTR szx, BOOL (*GetVar)(PSTR, PSTR), void (*SetVar)(PSTR, PSTR), DWORD * pFlags, UINT nArgs, PSTR * szargs, PowerProServices * ppsv )
+
+BEGIN_PPRO_SVC( loadcd )
 {
-	// return nothing
-	**szargs = '\0';
-	PPServices = ppsv;
-
-	if( CheckArgumentsCount( ServiceLoadcd, nArgs ) )
+	if( CheckArgumentsCount( ServiceLoadcd, &pp ) )
 	{
 		char cdDriveLetter;
 
-		if( 1 == nArgs && 1 == strlen( szargs[1] ) )
+		if( 1 == pp.argc && 1 == strlen( pp.argv[0] ) )
 		{
-			cdDriveLetter = tolower( szargs[1][0] );
+			cdDriveLetter = tolower( pp.argv[0][0] );
 			if( cdDriveLetter >= 'a' && cdDriveLetter <= 'z' )
 				LoadCd( cdDriveLetter );
 		}
-		else if( 0 == nArgs && FindFirstCdDrive( &cdDriveLetter ) )
+		else if( 0 == pp.argc && FindFirstCdDrive( &cdDriveLetter ) )
 			LoadCd( cdDriveLetter );
 	}
 }
+END_PPRO_SVC

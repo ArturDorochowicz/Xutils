@@ -1,20 +1,34 @@
-/**
- * Xutils
- * Copyright (C) Artur Dorochowicz
+/* Xutils Plugin for PowerPro
+ * Copyright (c) 2005-2008 Artur Dorochowicz
  *
- * Released under the terms of Lesser General Public License (LGPL).
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
- */
+**/
 
 
-#ifndef XUTILS_H
-#define XUTILS_H
+#ifndef _XUTILS_H
+#define _XUTILS_H
 
-#include <stdio.h>
 
-// need Windows XP and later APIs
-#define _WIN32_WINNT 0x0501
-#include <Windows.h>
+/* PowerPro 4.5.12 is the first version to support EncodeFloat/DecodeFloat */
+#define PPRO_VERSION 4512
+#include "powerpro.h"
 
 
 typedef enum tagServices
@@ -29,55 +43,23 @@ typedef enum tagServices
 	ServiceScrolldown
 } Services;
 
-typedef struct tagPowerProServices
-{
-	void (*ErrMessage)(PSTR, PSTR);
-	BOOL (*MatchCaption)(HWND, PSTR);
-	HWND (*FindMatchingWindow)(PSTR,BOOL);
-	BOOL (*IsRolled)(HWND hw);
-	BOOL (*IsTrayMinned)(HWND hw);
-	void (*GetExeFullPath)(HWND hw, PSTR szt);
-	void (*RollUp)(HWND hw);
-	void (*TrayMin)(HWND hw);
-	void (*SendKeys)(PSTR sz);
-	BOOL (*EvalExpr)(PSTR sz, PSTR szo);
-	void (*Debug)(PSTR sz1, PSTR sz2,PSTR sz3, PSTR sz4, PSTR sz5, PSTR sz6);
-	PSTR (*AllocTemp)(UINT leng);
-	void (*ReturnString)(PSTR sz, PSTR* szargs);
-	PSTR (*GetVarAddr)(PSTR var);
-	PSTR (*SetVar)(PSTR var, PSTR val);
-	void (*IgnoreNextClip)();
-	void (*Show)(HWND h);
-	void (*RunCmd)(PSTR szCmd, PSTR szParam, PSTR szWork);
-	BOOL (*InsertStringForBar)( PSTR szStr, PSTR szCmd);
-	void (*ResetFocus)();
-	HWND (*NoteOpen)(PSTR szFile, PSTR szKeyWords);
-	BOOL (*PumpMessages)();
-	BOOL (*RegForConfig)(void ( *callback )(PSTR szList), BOOL bReg );
-	void (*SetPreviousFocus)(HWND h );
-	UINT (*SetDebug)(PSTR sz );
-	UINT (*ScriptCancel)(PSTR sz );
-	void (*GetCurrentDir)(HWND h,PSTR szt);
-} PowerProServices;
-
-extern PowerProServices * PPServices;
 
 /**
  * Display error message.
- * Message is displayed with PPServices->ErrMessage
- * or an ordinary MessageBox, when PPServices is NULL.
+ * Message is displayed with PPROSERVICES->ErrMessage
+ * or an ordinary MessageBox, when PPROSERVICES is NULL.
  */
-void ShowErrorMessage( const char * message );
+void ShowErrorMessage( const char *message, PPROSERVICES *pproServices );
 
 /**
  * Format and display error message for error code obtained from GetLastError().
  */
-void ShowLastError( );
+void ShowLastError( PPROSERVICES *pproServices );
 
 /**
  * Check number of arguments.
  */
-BOOL CheckArgumentsCount( Services service, int nArgs );
+BOOL CheckArgumentsCount( Services service, PPROHELPER *pp );
 
 /**
  * Convert specified ANSI string to Unicode string.
@@ -85,4 +67,4 @@ BOOL CheckArgumentsCount( Services service, int nArgs );
  */
 BOOL ConvertMultiByteToWideChar( const char * ansiStr, wchar_t ** wideStr );
 
-#endif   // #ifndef XUTILS_H
+#endif   // #ifndef _XUTILS_H

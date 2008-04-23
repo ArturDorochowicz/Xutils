@@ -1,31 +1,40 @@
-/**
- * Xutils
- * Copyright (C) Artur Dorochowicz
+/* Xutils Plugin for PowerPro
+ * Copyright (c) 2005-2008 Artur Dorochowicz
  *
- * Released under the terms of Lesser General Public License (LGPL).
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  *
- */
+**/
 
 
 #include "Xutils.h"
 
+
+#include <stdlib.h>
+
+
 /*---------------------------------------------------------------------------*/
 
-PowerProServices * PPServices = NULL;
-
-/**
- * Library's main entry point, no special processing needed
- */
-BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD dwReason, PVOID lpvReserved )
+void ShowErrorMessage( const char *message, PPROSERVICES *pproServices )
 {
-	return TRUE;
-}
-
-void ShowErrorMessage( const char * message )
-{
-	if( PPServices != NULL )
+	if( pproServices != NULL )
 	{
-		PPServices->ErrMessage( (char*) message, NULL );
+		pproServices->ErrMessage( (char*) message, "" );
 	}
 	else
 	{
@@ -33,7 +42,7 @@ void ShowErrorMessage( const char * message )
 	}
 }
 
-void ShowLastError( )
+void ShowLastError( PPROSERVICES *pproServices )
 {
 	char * messageBuffer;
 
@@ -44,11 +53,11 @@ void ShowLastError( )
 		(char*) &messageBuffer,
 		0, NULL );
 
-	ShowErrorMessage( messageBuffer );
+	ShowErrorMessage( messageBuffer, pproServices );
 	LocalFree( messageBuffer );
 }
 
-BOOL CheckArgumentsCount( Services service, int nArgs )
+BOOL CheckArgumentsCount( Services service, PPROHELPER *pp )
 {
 	BOOL nArgsOk = TRUE;
 	
@@ -62,90 +71,90 @@ BOOL CheckArgumentsCount( Services service, int nArgs )
 	{
 		case ServiceSudo:
 		{
-			if( nArgs > 3 )
+			if( pp->argc > 3 )
 			{
 				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_3 );
+				ShowErrorMessage( ARGS_MAX_3, pp->svcs );
 			}
-			else if( nArgs < 1 )
+			else if( pp->argc < 1 )
 			{
 				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MIN_1 );
+				ShowErrorMessage( ARGS_MIN_1, pp->svcs );
 			}
 			break;
 		}
 
 		case ServiceRunas:
 		{
-			if( nArgs > 4 )
+			if( pp->argc > 4 )
 			{
 				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_4 );
+				ShowErrorMessage( ARGS_MAX_4, pp->svcs );
 			}
-			else if( nArgs < 1 )
+			else if( pp->argc < 1 )
 			{
 				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MIN_1 );
+				ShowErrorMessage( ARGS_MIN_1, pp->svcs );
 			}
 			break;
 		}
 
 		case ServiceEjectcd:
 		{
-			if( nArgs > 1 )
+			if( pp->argc > 1 )
 			{
 				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_1 );
+				ShowErrorMessage( ARGS_MAX_1, pp->svcs );
 			}
 			break;
 		}
 
 		case ServiceLoadcd:
 		{
-			if( nArgs > 1 )
+			if( pp->argc > 1 )
 			{
 				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_1 );
+				ShowErrorMessage( ARGS_MAX_1, pp->svcs );
 			}
 			break;
 		}
 
 		case ServiceDisableidletimers:
 		{
-			if( nArgs > 1 )
+			if( pp->argc > 1 )
 			{
 				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_1 );
+				ShowErrorMessage( ARGS_MAX_1, pp->svcs );
 			}
 			break;
 		}
 
 		case ServiceEnableidletimers:
 		{
-			if( nArgs > 1 )
+			if( pp->argc > 1 )
 			{
 				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_1 );
+				ShowErrorMessage( ARGS_MAX_1, pp->svcs );
 			}
 			break;
 		}
 
 		case ServiceScrollup:
 		{
-			if( nArgs > 1 )
+			if( pp->argc > 1 )
 			{
 				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_1 );
+				ShowErrorMessage( ARGS_MAX_1, pp->svcs );
 			}
 			break;
 		}
 
 		case ServiceScrolldown:
 		{
-			if( nArgs > 1 )
+			if( pp->argc > 1 )
 			{
 				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_1 );
+				ShowErrorMessage( ARGS_MAX_1, pp->svcs );
 			}
 			break;
 		}
