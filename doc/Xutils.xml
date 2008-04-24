@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
 [	<!ENTITY nbsp "&#160;">
 	<!ENTITY copy "&#169;">
@@ -182,7 +182,7 @@
 		<div id="softwareName">Xutils <span id="pluginVersion">version</span></div>
 
 		<p>
-			Copyright &copy; 2005&ndash;<span id="lastCopyrightYear">year</span> Artur Dorochowicz <br />
+			Copyright &copy; 2005&ndash;<span id="lastCopyrightYear">year</span> Artur Dorochowicz
 		</p>
 		<p>
 			Released under the terms of the MIT/X11 licence.
