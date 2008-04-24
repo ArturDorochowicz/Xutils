@@ -49,7 +49,7 @@ BEGIN
 	  VALUE "ProductName",      "Xutils Plugin for PowerPro"
       VALUE "ProductVersion",   XUTILS_VERSION_STRING
 	  VALUE "FileVersion",      XUTILS_VERSION_STRING
-      VALUE "LegalCopyright",   "Copyright © " XUTILS_COPYRIGHT_YEARS_STRING " Artur Dorochowicz"
+      VALUE "LegalCopyright",   "Copyright © 2005-" XUTILS_COPYRIGHT_LAST_YEAR_STRING " Artur Dorochowicz"
       VALUE "OriginalFilename", "Xutils.dll"
     END
   END

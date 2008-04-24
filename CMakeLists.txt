@@ -1,28 +1,20 @@
 project( "Xutils" )
 
+set( XUTILS_VERSION_MAJOR        "1" )
+set( XUTILS_VERSION_MINOR        "0" )
+set( XUTILS_VERSION_BUILD        "2" )
+set( XUTILS_VERSION_REVISION     "0" )
+set( XUTILS_COPYRIGHT_LAST_YEAR  "2008" )
+
+
 # Allow ENDIF() and ELSE() without expressions in parentheses
 set( CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true )
 
 message( STATUS "Generator: ${CMAKE_GENERATOR}" )
 
 
-# Get current date (output is formatted as YYYY-MM-DD)
-# Need to do this explicitly through shell, because neither EXEC_PROGRAM
-# nor EXECUTE_PROCESS seem to use it.
-exec_program( "$ENV{SystemRoot}/system32/cmd.exe" ARGS "/c date /t" OUTPUT_VARIABLE CURRENT_YEAR )
-# leave year only
-string( REGEX MATCH "[0-9]+" CURRENT_YEAR "${CURRENT_YEAR}" )
-
-
-set( XUTILS_VERSION_MAJOR     "1" )
-set( XUTILS_VERSION_MINOR     "0" )
-set( XUTILS_VERSION_BUILD     "2" )
-set( XUTILS_VERSION_REVISION  "0" )
-
-
 add_subdirectory( "doc" )
 add_subdirectory( "src" )
-
 
 
 # Distribution target

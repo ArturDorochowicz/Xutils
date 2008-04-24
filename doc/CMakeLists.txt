@@ -51,7 +51,7 @@ add_custom_command( OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/Xutils.xhtml"
 			--nonet
 			--stringparam "servicesPath" "${CMAKE_CURRENT_BINARY_DIR}/services.xml"
 			--stringparam "pluginVersion" "${XUTILS_VERSION_MAJOR}.${XUTILS_VERSION_MINOR}.${XUTILS_VERSION_BUILD}"
-			--stringparam "lastCopyrightYear" "${CURRENT_YEAR}"
+			--stringparam "lastCopyrightYear" "${XUTILS_COPYRIGHT_LAST_YEAR}"
 			"${CMAKE_CURRENT_SOURCE_DIR}/Xutils.xsl"
 			"${CMAKE_CURRENT_SOURCE_DIR}/Xutils.xml"
 	DEPENDS
