@@ -43,7 +43,7 @@ BEGIN
     BLOCK "080904b0"   //"languageID" '+' "charsetID" - (U.K. English,Unicode)
     BEGIN
       //add standard values
-      VALUE "CompanyName",      ""
+      VALUE "CompanyName",      "Artur Dorochowicz"
       VALUE "FileDescription",  "Xutils Plugin for PowerPro"
 	  VALUE "InternalName",     "Xutils Plugin for PowerPro"
 	  VALUE "ProductName",      "Xutils Plugin for PowerPro"

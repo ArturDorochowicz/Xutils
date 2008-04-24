@@ -22,39 +22,45 @@
 **/
 
 
+#include <Windows.h>
+#include <Winioctl.h>
+
 #include "Xutils.h"
 
 
-#include <Winioctl.h>
-
-
-HANDLE OpenCdVolume( char driveLetter )
+static BOOL IsCdRomDrive( char driveLetter )
 {
-	HANDLE volume = INVALID_HANDLE_VALUE;
-	char volumeName [] = "\\\\.\\X:";
-	char rootName [] = "X:\\";
-
+	char rootName[] = "X:\\";
 	rootName[0] = driveLetter;
 
-	if( DRIVE_CDROM == GetDriveType( rootName ) )
-	{
-		volumeName[4] = driveLetter;
-		volume = CreateFile( volumeName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL );
-	}
-
-	return volume;
+	return DRIVE_CDROM == GetDriveType( rootName );
 }
 
-BOOL FindFirstCdDrive( char * cdDriveLetter )
+
+static HANDLE OpenCdRomVolume( char driveLetter )
 {
-	char rootName [] = "X:\\";
+	if( TRUE == IsCdRomDrive( driveLetter ) )
+	{
+		char volumeName[] = "\\\\.\\X:";
+		HANDLE volume;
+		
+		volumeName[4] = driveLetter;
+		volume = CreateFile( volumeName, GENERIC_READ,
+			FILE_SHARE_READ | FILE_SHARE_WRITE, NULL, OPEN_EXISTING, 0, NULL );
+		return volume;
+	}
+
+	return INVALID_HANDLE_VALUE;
+}
+
+
+static BOOL FindFirstCdRomDrive( char *cdDriveLetter )
+{
 	char driveLetter;
 
 	for( driveLetter = 'A'; driveLetter <= 'Z'; ++driveLetter )
 	{
-		rootName[0] = driveLetter;
-
-		if( DRIVE_CDROM == GetDriveType( rootName ) )
+		if( TRUE == IsCdRomDrive( driveLetter ) )
 		{
 			*cdDriveLetter = driveLetter;
 			return TRUE;
@@ -64,62 +70,60 @@ BOOL FindFirstCdDrive( char * cdDriveLetter )
 	return FALSE;
 }
 
-BOOL EjectCd( char driveLetter )
+
+static BOOL EjectCd( char driveLetter )
 {
 	BOOL isOk = FALSE;
-	HANDLE volume;
-	DWORD bytesReturned;
-
-	if( INVALID_HANDLE_VALUE != ( volume = OpenCdVolume( driveLetter ) ) )
+	HANDLE volume = OpenCdRomVolume( driveLetter );
+	
+	if( volume != INVALID_HANDLE_VALUE )
 	{
-		if( DeviceIoControl( volume, IOCTL_STORAGE_EJECT_MEDIA, NULL, 0, NULL, 0, &bytesReturned, NULL ) )
-			isOk = TRUE;
+		DWORD bytesReturned;
 
-		if( !CloseHandle( volume ) )
-			isOk = FALSE;
+		isOk = DeviceIoControl( volume, IOCTL_STORAGE_EJECT_MEDIA, NULL, 0,
+			NULL, 0, &bytesReturned, NULL );
+		CloseHandle( volume );
 	}
 
 	return isOk;
 }
 
-BOOL LoadCd( char driveLetter )
+
+static BOOL LoadCd( char driveLetter )
 {
 	BOOL isOk = FALSE;
-	HANDLE volume;
-	DWORD bytesReturned;
-	
-	if( INVALID_HANDLE_VALUE != ( volume = OpenCdVolume( driveLetter ) ) )
+	HANDLE volume = OpenCdRomVolume( driveLetter );
+		
+	if( volume != INVALID_HANDLE_VALUE )
 	{
-		if( DeviceIoControl( volume, IOCTL_STORAGE_LOAD_MEDIA, NULL, 0, NULL, 0, &bytesReturned, NULL ) )
-			isOk = TRUE;
-	
-		if( !CloseHandle( volume ) )
-			isOk = FALSE;
+		DWORD bytesReturned;
+		
+		isOk = DeviceIoControl( volume, IOCTL_STORAGE_LOAD_MEDIA, NULL, 0, NULL,
+			0, &bytesReturned, NULL );
+		CloseHandle( volume );
 	}
 
 	return isOk;
 }
-
-/*---------------------------------------------------------------------------*/
 
 
 /*! <service name="EjectCd">
-/*!  <description>Eject CD in the specified CD drive. Without parameter ejects first CD drive in the system.</description>
-/*!  <argument name="cdDriveLetter" type="string" optional="true">Letter of CD drive to use.</argument>
+/*!  <description>Eject CD in the specified CD drive. Without the parameter, the service will eject the first CD drive in the system.</description>
+/*!  <argument name="cdDriveLetter" type="string" optional="true">The letter of the CD drive to use.</argument>
 /*! </service> */
 BEGIN_PPRO_SVC( ejectcd )
 {
-	if( CheckArgumentsCount( ServiceEjectcd, &pp ) )
+	if( CheckArgumentsCount( ServiceEjectCd, pp ) )
 	{
 		char cdDriveLetter;
 
-		if( 1 == pp.argc && 1 == strlen( pp.argv[0] ) )
+		if( 1 == pp->argc && 1 == strlen( pp->argv[0] ) )
 		{
-			cdDriveLetter = toupper( pp.argv[0][0] );
-			if( cdDriveLetter >= 'A' && cdDriveLetter <= 'Z' )
+			cdDriveLetter = (char) tolower( pp->argv[0][0] );
+			if( cdDriveLetter >= 'a' && cdDriveLetter <= 'z' )
 				EjectCd( cdDriveLetter );
 		}
-		else if( 0 == pp.argc && FindFirstCdDrive( &cdDriveLetter ) )
+		else if( 0 == pp->argc && TRUE == FindFirstCdRomDrive( &cdDriveLetter ) )
 			EjectCd( cdDriveLetter );
 	}
 }
@@ -127,22 +131,22 @@ END_PPRO_SVC
 
 
 /*! <service name="LoadCd">
-/*!  <description>Close door of specified CD drive. Without parameter closes door of the first CD drive in the system.</description>
-/*!  <argument name="cdDriveLetter" type="string" optional="true">Letter of CD drive to use.</argument>
+/*!  <description>Close the door of the specified CD drive. Without the parameter, the service will close the door of the first CD drive in the system.</description>
+/*!  <argument name="cdDriveLetter" type="string" optional="true">The letter of the CD drive to use.</argument>
 /*! </service> */
 BEGIN_PPRO_SVC( loadcd )
 {
-	if( CheckArgumentsCount( ServiceLoadcd, &pp ) )
+	if( CheckArgumentsCount( ServiceLoadCd, pp ) )
 	{
 		char cdDriveLetter;
 
-		if( 1 == pp.argc && 1 == strlen( pp.argv[0] ) )
+		if( 1 == pp->argc && 1 == strlen( pp->argv[0] ) )
 		{
-			cdDriveLetter = tolower( pp.argv[0][0] );
+			cdDriveLetter = (char) tolower( pp->argv[0][0] );
 			if( cdDriveLetter >= 'a' && cdDriveLetter <= 'z' )
 				LoadCd( cdDriveLetter );
 		}
-		else if( 0 == pp.argc && FindFirstCdDrive( &cdDriveLetter ) )
+		else if( 0 == pp->argc && FindFirstCdRomDrive( &cdDriveLetter ) )
 			LoadCd( cdDriveLetter );
 	}
 }

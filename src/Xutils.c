@@ -24,11 +24,8 @@
 
 #include "Xutils.h"
 
-
 #include <stdlib.h>
 
-
-/*---------------------------------------------------------------------------*/
 
 void ShowErrorMessage( const char *message, PPROSERVICES *pproServices )
 {
@@ -42,9 +39,10 @@ void ShowErrorMessage( const char *message, PPROSERVICES *pproServices )
 	}
 }
 
+
 void ShowLastError( PPROSERVICES *pproServices )
 {
-	char * messageBuffer;
+	char *messageBuffer;
 
 	FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
 		NULL,
@@ -57,19 +55,20 @@ void ShowLastError( PPROSERVICES *pproServices )
 	LocalFree( messageBuffer );
 }
 
+
 BOOL CheckArgumentsCount( Services service, PPROHELPER *pp )
 {
 	BOOL nArgsOk = TRUE;
 	
-	static const char ARGS_MAX_1 [] = "The service needs at most one argument.";
-	static const char ARGS_MAX_3 [] = "The service needs at most three arguments.";
-	static const char ARGS_MAX_4 [] = "The service needs at most four arguments.";
+	static const char ARGS_MAX_1[] = "The service needs at most one argument.";
+	static const char ARGS_MAX_3[] = "The service needs at most three arguments.";
+	static const char ARGS_MAX_4[] = "The service needs at most four arguments.";
 
-	static const char ARGS_MIN_1 [] = "The service needs at least one argument.";
+	static const char ARGS_MIN_1[] = "The service needs at least one argument.";
 
 	switch( service )
 	{
-		case ServiceSudo:
+		case ServiceSuDo:
 		{
 			if( pp->argc > 3 )
 			{
@@ -84,7 +83,7 @@ BOOL CheckArgumentsCount( Services service, PPROHELPER *pp )
 			break;
 		}
 
-		case ServiceRunas:
+		case ServiceRunAs:
 		{
 			if( pp->argc > 4 )
 			{
@@ -99,7 +98,7 @@ BOOL CheckArgumentsCount( Services service, PPROHELPER *pp )
 			break;
 		}
 
-		case ServiceEjectcd:
+		case ServiceEjectCd:
 		{
 			if( pp->argc > 1 )
 			{
@@ -109,7 +108,7 @@ BOOL CheckArgumentsCount( Services service, PPROHELPER *pp )
 			break;
 		}
 
-		case ServiceLoadcd:
+		case ServiceLoadCd:
 		{
 			if( pp->argc > 1 )
 			{
@@ -119,7 +118,7 @@ BOOL CheckArgumentsCount( Services service, PPROHELPER *pp )
 			break;
 		}
 
-		case ServiceDisableidletimers:
+		case ServiceDisableIdleTimers:
 		{
 			if( pp->argc > 1 )
 			{
@@ -129,7 +128,7 @@ BOOL CheckArgumentsCount( Services service, PPROHELPER *pp )
 			break;
 		}
 
-		case ServiceEnableidletimers:
+		case ServiceEnableIdleTimers:
 		{
 			if( pp->argc > 1 )
 			{
@@ -139,7 +138,7 @@ BOOL CheckArgumentsCount( Services service, PPROHELPER *pp )
 			break;
 		}
 
-		case ServiceScrollup:
+		case ServiceScrollUp:
 		{
 			if( pp->argc > 1 )
 			{
@@ -149,7 +148,7 @@ BOOL CheckArgumentsCount( Services service, PPROHELPER *pp )
 			break;
 		}
 
-		case ServiceScrolldown:
+		case ServiceScrollDown:
 		{
 			if( pp->argc > 1 )
 			{
@@ -163,6 +162,7 @@ BOOL CheckArgumentsCount( Services service, PPROHELPER *pp )
 
 	return nArgsOk;
 }
+
 
 BOOL ConvertMultiByteToWideChar( const char * ansiStr, wchar_t ** wideStr )
 {

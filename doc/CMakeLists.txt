@@ -40,7 +40,7 @@ add_custom_command( OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/services.xml"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../src/IdleTimers.c"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../src/RunAs.c"
 	COMMENT
-		"Extract services' descriptions and store them all in one XML file." )
+		"Extracting services' descriptions from source code files into an XML file" )
 
 
 add_custom_command( OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/Xutils.xhtml"
@@ -59,7 +59,7 @@ add_custom_command( OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/Xutils.xhtml"
 		"${CMAKE_CURRENT_SOURCE_DIR}/Xutils.xml"
 		"${CMAKE_CURRENT_BINARY_DIR}/services.xml"
 	COMMENT
-		"Produce documentation in XHTML by applying the XSL transform." )
+		"Applying XSL transform to produce documentation in XHTML" )
 
 
 # Due to some problems with doctype emitted by Tidy (no system indentifier and
@@ -83,7 +83,7 @@ add_custom_command( OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/Xutils.html"
 	DEPENDS
 		"${CMAKE_CURRENT_BINARY_DIR}/Xutils.xhtml"
 	COMMENT
-		"Produce documentation in HTML 4.01 Strict from XHTML. Using Tidy for that." )
+		"Running Tidy to produce final HTML documentation from XHTML" )
 
 
 if( MSH AND XSLT AND TIDY )

@@ -22,26 +22,30 @@
 **/
 
 
-/* needed for INPUT & POINT in VC6&Feb2003SDK */
-#define _WIN32_WINNT  0x0501
+/* Somehow this is needed for INPUT & POINT in VC6&Feb2003SDK, 0x0500 = Windows 2000 */
+#define WINVER         0x0500
+#define _WIN32_WINNT   0x0500
+#define _WIN32_WINDOWS 0x0500
+#define _WIN32_IE      0x0500
 #include <Windows.h>
 
 #include "Xutils.h"
 
 
-typedef enum tagScrollDirections
+typedef enum ScrollDirections
 {
 	SCROLL_UP,
 	SCROLL_DOWN
 } ScrollDirection;
 
-BOOL Scroll( ScrollDirection scrollDirection, double scrollLines )
+
+static BOOL Scroll( ScrollDirection scrollDirection, double scrollLines )
 {
-	//
-	// Don't know why this works, but it works.
-	// Simply simulate mouse wheel scroll, without directing the messages
-	// to a specific window - the OS takes care of this.
-	//
+	/*
+	 * Don't know why this works, but it works.
+	 * Simply simulate mouse wheel scroll, without directing the messages
+	 * to a specific window - the OS takes care of this.
+	*/
 
 	INPUT mouseInput;
 	POINT mousePosition;
@@ -68,7 +72,8 @@ BOOL Scroll( ScrollDirection scrollDirection, double scrollLines )
 	return FALSE;
 }
 
-int GetWheelScrollLines( )
+
+static int GetWheelScrollLines( )
 {
 	int scrollLines;
 
@@ -77,23 +82,21 @@ int GetWheelScrollLines( )
 }
 
 
-/*---------------------------------------------------------------------------*/
-
 
 /*! <service name="ScrollUp">
-/*!  <description>Simulate scrolling up with mouse scroll wheel.</description>
-/*!  <argument name="scrollLinesCount" type="int" optional="true">Specifies speed of scrolling. If this parameter is not given, the service reads the value from system settings.</argument>
+/*!  <description>Emulate scrolling up with mouse scroll wheel.</description>
+/*!  <argument name="scrollLinesCount" type="int" optional="true">Specifies the speed of scrolling. If this parameter is not present, the service reads the value from the system settings.</argument>
 /*! </service> */
 BEGIN_PPRO_SVC( scrollup )
 {
-	if( CheckArgumentsCount( ServiceScrollup, &pp ) )
+	if( CheckArgumentsCount( ServiceScrollUp, pp ) )
 	{
 		double scrollLines;
-
-		// get the argument or read it from the system
-		scrollLines = pp.svcs->DecodeFloat( pp.argv[0] );
 		
-		if( 0 == scrollLines )
+		/* get the argument or read it from the system */
+		if( 1 == pp->argc )
+			scrollLines = pp->svcs->DecodeFloat( pp->argv[0] );
+		else
 			scrollLines = GetWheelScrollLines( );
 
 		Scroll( SCROLL_UP, scrollLines );	
@@ -103,19 +106,19 @@ END_PPRO_SVC
 
 
 /*! <service name="ScrollDown">
-/*!  <description>Simulate scrolling down with mouse scroll wheel.</description>
-/*!  <argument name="scrollLinesCount" type="int" optional="true">Specifies speed of scrolling. If this parameter is not given, the service reads the value from system settings.</argument>
+/*!  <description>Emulate scrolling down with mouse scroll wheel.</description>
+/*!  <argument name="scrollLinesCount" type="int" optional="true">Specifies the speed of scrolling. If this parameter is not present, the service reads the value from the system settings.</argument>
 /*! </service> */
 BEGIN_PPRO_SVC( scrolldown )
 {
-	if( CheckArgumentsCount( ServiceScrolldown, &pp ) )
+	if( CheckArgumentsCount( ServiceScrollDown, pp ) )
 	{
 		double scrollLines;
 
-		// get the argument or read it from the system
-		scrollLines = pp.svcs->DecodeFloat( pp.argv[0] );
-		
-		if( 0 == scrollLines )
+		/* get the argument or read it from the system */
+		if( 1 == pp->argc )		
+			scrollLines= pp->svcs->DecodeFloat( pp->argv[0] );
+		else
 			scrollLines = GetWheelScrollLines( );
 
 		Scroll( SCROLL_DOWN, scrollLines );	

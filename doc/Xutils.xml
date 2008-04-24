@@ -219,9 +219,10 @@
 
 		<h1>Overview</h1>
 
-		<p>Xutils plugin for PowerPro is a set of miscellaneous services. <br/>
-		   It has been tested on Windows XP only. Some of the services require Windows
-		   XP or newer operating system.
+		<p>Xutils plugin for PowerPro is a set of miscellaneous services.</p>
+		<p>
+			It has been tested on Windows XP only. Some of the services require Windows
+			XP or newer operating system.
 		</p>
 		<p>The plugin requires PowerPro version 4.5.12 or newer.</p>
 
@@ -243,16 +244,14 @@
 
 		<h1>Description of services</h1>
     
-        <p>
+      <p>
 			In the desciptions below the following data types are used:
 		</p>		
 		<ul>
 			<li>string - possible PowerPro arguments are: string, integer (is converted to string)</li>
 			<li>int - integer, possible PowerPro arguments are: integer, string (containing an integer), float (is truncated to integer)</li>
-			<li>float - possible PowerPro arguments are: float, integer, string (containing a float)</li>
-			<li>mixed - the actual type depends on the value of one of arguments</li>
 		</ul>
-		
+
 		<ul id="servicesDescriptions">
 			<li id="example_service">
 				<div>
@@ -304,6 +303,9 @@
 		<h1>History</h1>
 
 		<ol id="versionsList">
+			<li>1.0.2 - 2008
+				
+			</li>
 			<li>1.0.1 - 2007-01-01
 				<ul>
 					<li>Fixed: Resource leak in RunAs functionality.</li>
@@ -320,7 +322,7 @@
 		<h1>Contacting the author</h1>
 
 		<p>All comments, feature requests, bug reports are welcome and appreciated.<br/>
-			Please use Yahoo PowerPro group to contact the author.
+			Please use <a href="http://groups.yahoo.com/group/power-pro/">Yahoo PowerPro group</a> to contact the author.
 		</p>
 
 	</body>

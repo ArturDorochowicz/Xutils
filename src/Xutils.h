@@ -31,16 +31,16 @@
 #include "powerpro.h"
 
 
-typedef enum tagServices
+typedef enum Services
 {
-	ServiceRunas,
-	ServiceSudo,
-	ServiceEjectcd,
-	ServiceLoadcd,
-	ServiceDisableidletimers,
-	ServiceEnableidletimers,
-	ServiceScrollup,
-	ServiceScrolldown
+	ServiceRunAs,
+	ServiceSuDo,
+	ServiceEjectCd,
+	ServiceLoadCd,
+	ServiceDisableIdleTimers,
+	ServiceEnableIdleTimers,
+	ServiceScrollUp,
+	ServiceScrollDown
 } Services;
 
 
@@ -51,20 +51,24 @@ typedef enum tagServices
  */
 void ShowErrorMessage( const char *message, PPROSERVICES *pproServices );
 
+
 /**
  * Format and display error message for error code obtained from GetLastError().
- */
+**/
 void ShowLastError( PPROSERVICES *pproServices );
+
 
 /**
  * Check number of arguments.
- */
+**/
 BOOL CheckArgumentsCount( Services service, PPROHELPER *pp );
+
 
 /**
  * Convert specified ANSI string to Unicode string.
- * Caller is responsible for freeing allocated wide string.
- */
-BOOL ConvertMultiByteToWideChar( const char * ansiStr, wchar_t ** wideStr );
+ * Caller is responsible for freeing allocated wide string with free().
+**/
+BOOL ConvertMultiByteToWideChar( const char *ansiStr, wchar_t **wideStr );
+
 
 #endif   // #ifndef _XUTILS_H

@@ -25,7 +25,6 @@
 #include "Xutils.h"
 
 
-
 /*! <service name="DisableIdleTimers">
 /*!  <description>Disable operating system idle timers.
 /*!   There are two idle timers: system idle timer and display idle timer, their
@@ -36,14 +35,14 @@
 /*! </service> */
 BEGIN_PPRO_SVC( disableidletimers )
 {
-	if( CheckArgumentsCount( ServiceDisableidletimers, &pp ) )
+	if( CheckArgumentsCount( ServiceDisableIdleTimers, pp ) )
 	{
 		SetThreadExecutionState( ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED | ES_CONTINUOUS );
 
-		if( 1 == strlen( pp.argv[0] ) && pp.argv[0][0] == '1' )
+		if( 1 == pp->argc && 0 == strcmp( pp->argv[0], "1" ) )
 		{
-			// use PP's built-in functionality
-			pp.svcs->RunCmd( "ScreenSaver.disable", "", "" );
+			/* use PP's built-in functionality */
+			pp->svcs->RunCmd( "ScreenSaver.disable", "", "" );
 		}
 	}
 }
@@ -64,14 +63,14 @@ END_PPRO_SVC
 /*! </service> */
 BEGIN_PPRO_SVC( enableidletimers )
 {
-	if( CheckArgumentsCount( ServiceEnableidletimers, &pp ) )
+	if( CheckArgumentsCount( ServiceEnableIdleTimers, pp ) )
 	{
 		SetThreadExecutionState( ES_CONTINUOUS );
 
-		if( 1 == strlen( pp.argv[0] ) && pp.argv[0][0] == '1' )
+		if( 1 == pp->argc && 0 == strcmp( pp->argv[0], "1" ) )
 		{
-			// use PP's built-in functionality
-			pp.svcs->RunCmd( "ScreenSaver.enable", "", "" );
+			/* use PP's built-in functionality */
+			pp->svcs->RunCmd( "ScreenSaver.enable", "", "" );
 		}
 	}
 }

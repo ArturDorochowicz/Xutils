@@ -24,8 +24,11 @@
 
 #include <stdlib.h>
 
-/* need Windows XP and later APIs */
-#define _WIN32_WINNT 0x0501
+/* Somehow this is needed for runas APIs in VC6&Feb2003SDK, 0x0501 = Windows XP */
+#define WINVER         0x0501
+#define _WIN32_WINNT   0x0501
+#define _WIN32_WINDOWS 0x0501
+#define _WIN32_IE      0x0501
 #include <Windows.h>
 #include <wincred.h>
 #include <Sddl.h>
@@ -36,17 +39,17 @@
 /**
  * Prepare command line.
  * Caller is responsible for freeing allocated string.
- */
-BOOL CreateCommandLine( const wchar_t * programPath, const wchar_t * programArguments, wchar_t ** commandLine )
+**/
+static BOOL CreateCommandLine( const wchar_t *programPath,
+	const wchar_t *programArguments, wchar_t **commandLine )
 {
-	BOOL isOk = FALSE;
 	size_t programPathLength = wcslen( programPath );
 
-	// commandLine = ["] + programPath + ["] + [space] + programArguments
+	/* commandLine = ["] + programPath + ["] + [space] + programArguments */
 	*commandLine = malloc( ( programPathLength + wcslen( programArguments ) + 4 ) * sizeof( wchar_t ) );
 	if( *commandLine != NULL )
 	{
-		wchar_t * p = *commandLine;
+		wchar_t *p = *commandLine;
 		*p++ = L'"';
 		wcscpy( p, programPath );
 		p += programPathLength;
@@ -54,39 +57,39 @@ BOOL CreateCommandLine( const wchar_t * programPath, const wchar_t * programArgu
 		*p++ = L' ';
 		wcscpy( p, programArguments );
 
-		isOk = TRUE;
+		return TRUE;
 	}
 
-	return isOk;
+	return FALSE;
 }
+
 
 /**
  * Prepare label for prompt-for-credentials dialog.
  * Caller is responsible for freeing allocated string.
  */
-BOOL CreateCredUILabel( const wchar_t * commandLine, wchar_t ** label )
+static BOOL CreateCredUILabel( const wchar_t *commandLine, wchar_t **label )
 {
-	BOOL isOk = FALSE;
-
-	// label = commandLine
-	// copy up to CREDUI_MAX_MESSAGE_LENGTH characters
+	/* label = commandLine */
+	/* copy up to CREDUI_MAX_MESSAGE_LENGTH characters */
 	size_t labelLength = wcslen( commandLine );
 	if( NULL != ( *label = malloc( ( labelLength + 1 ) * sizeof( wchar_t ) ) ) )
 	{
 		wcsncpy( *label, commandLine, 1 + min( labelLength, CREDUI_MAX_MESSAGE_LENGTH ) );
-
-		isOk = TRUE;
+		return TRUE;
 	}
 
-	return isOk;
+	return FALSE;
 }
+
 
 /**
  * Show logon dialog with preselected user name,
  * then use obtained credentials to run module specified in programPath.
  * None of the (wchar_t *) arguments can be NULL!
- */
-BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const wchar_t * preselectedUserName, const wchar_t * workingDirectory )
+**/
+static BOOL RunAs( const wchar_t *programPath, const wchar_t *programArguments,
+	const wchar_t *preselectedUserName, const wchar_t *workingDirectory )
 {
 	BOOL isOk = FALSE;
 	wchar_t * commandLine = NULL;
@@ -163,10 +166,12 @@ BOOL RunAs( const wchar_t * programPath, const wchar_t * programArguments, const
 	return isOk;
 }
 
-/**
+
+/** 
  * Run specified program using built-in local administrator account.
- */
-BOOL SuDo( const wchar_t * programPath, const wchar_t * programArguments, const wchar_t * workingDirectory )
+**/
+static BOOL SuDo( const wchar_t *programPath, const wchar_t *programArguments,
+	const wchar_t *workingDirectory )
 {
 	BOOL retVal = FALSE;
 
@@ -190,30 +195,28 @@ BOOL SuDo( const wchar_t * programPath, const wchar_t * programArguments, const 
 }
 
 
-/*---------------------------------------------------------------------------*/
-
-
 
 /*! <service name="RunAs">
-/*!  <description>Starts an application using given credentials. The service asks for credentials.</description>
+/*!  <description>Start an application using given credentials.
+/*!   The service asks for credentials.</description>
 /*!  <argument name="programPath" type="string">The path to the executable to run.</argument>
-/*!  <argument name="programArguments" type="string" optional="true">Arguments for the executable.</argument>
+/*!  <argument name="programArguments" type="string" optional="true">The arguments for the executable.</argument>
 /*!  <argument name="userName" type="string" optional="true">User name used in dialog prompting for credentials.</argument>
 /*!  <argument name="workingDirectory" type="string" optional="true">Initial working directory for the new process.</argument>
 /*! </service> */
 BEGIN_PPRO_SVC( runas )
 {
-	wchar_t * preselectedUserName = NULL;
-	wchar_t * programPath = NULL;
-	wchar_t * programArguments = NULL;
-	wchar_t * workingDirectory = NULL;
-
-	if( CheckArgumentsCount( ServiceRunas, &pp ) )
+	if( CheckArgumentsCount( ServiceRunAs, pp ) )
 	{
-		if( ConvertMultiByteToWideChar( pp.argv[0], &programPath )
-			&& ConvertMultiByteToWideChar( pp.argv[1], &programArguments )
-			&& ConvertMultiByteToWideChar( pp.argv[2], &preselectedUserName )
-			&& ConvertMultiByteToWideChar( pp.argv[3], &workingDirectory ) )
+		wchar_t *preselectedUserName = NULL;
+		wchar_t *programPath = NULL;
+		wchar_t *programArguments = NULL;
+		wchar_t *workingDirectory = NULL;
+
+		if( ConvertMultiByteToWideChar( pp->argv[0], &programPath )
+			&& ConvertMultiByteToWideChar( pp->argv[1], &programArguments )
+			&& ConvertMultiByteToWideChar( pp->argv[2], &preselectedUserName )
+			&& ConvertMultiByteToWideChar( pp->argv[3], &workingDirectory ) )
 		{
 			RunAs( programPath, programArguments, preselectedUserName, workingDirectory );
 		}
@@ -228,22 +231,23 @@ END_PPRO_SVC
 
 
 /*! <service name="SuDo">
-/*!  <description>Starts an application using built-in local administrator account. The service asks for administrator's password.</description>
+/*!  <description>Start an application using built-in local administrator account.
+/*!   The service asks for administrator's password.</description>
 /*!  <argument name="programPath" type="string">The path to the executable to run.</argument>
-/*!  <argument name="programArguments" type="string" optional="true">Arguments for the executable.</argument>
+/*!  <argument name="programArguments" type="string" optional="true">The arguments for the executable.</argument>
 /*!  <argument name="workingDirectory" type="string" optional="true">Initial working directory for the new process.</argument>
 /*! </service> */
 BEGIN_PPRO_SVC( sudo )
 {
-	wchar_t * programPath = NULL;
-	wchar_t * programArguments = NULL;
-	wchar_t * workingDirectory = NULL;
-
-	if( CheckArgumentsCount( ServiceSudo, &pp ) )
+	if( CheckArgumentsCount( ServiceSuDo, pp ) )
 	{
-		if( ConvertMultiByteToWideChar( pp.argv[0], &programPath )
-			&& ConvertMultiByteToWideChar( pp.argv[1], &programArguments )
-			&& ConvertMultiByteToWideChar( pp.argv[2], &workingDirectory ) )
+		wchar_t *programPath = NULL;
+		wchar_t *programArguments = NULL;
+		wchar_t *workingDirectory = NULL;
+
+		if( ConvertMultiByteToWideChar( pp->argv[0], &programPath )
+			&& ConvertMultiByteToWideChar( pp->argv[1], &programArguments )
+			&& ConvertMultiByteToWideChar( pp->argv[2], &workingDirectory ) )
 		{
 			SuDo( programPath, programArguments, workingDirectory );
 		}
