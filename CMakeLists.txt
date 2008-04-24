@@ -33,7 +33,10 @@ add_custom_target( "Distribution"
 			-E "copy" "${CMAKE_CURRENT_BINARY_DIR}/doc/Xutils.html" "${DISTRIBUTION_DIR}"
 	COMMAND
 		"${CMAKE_COMMAND}"
-			-E "copy" "${XUTILS_LOCATION}" "${DISTRIBUTION_DIR}" )
+			-E "copy" "${XUTILS_LOCATION}" "${DISTRIBUTION_DIR}"
+	COMMAND
+		"${CMAKE_COMMAND}"
+			-E "make_directory" "${DISTRIBUTION_DIR}/src" )
 
 add_dependencies( "Distribution"
 	"Xutils"
