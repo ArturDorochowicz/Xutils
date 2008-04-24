@@ -80,6 +80,10 @@ int GetWheelScrollLines( )
 /*---------------------------------------------------------------------------*/
 
 
+/*! <service name="ScrollUp">
+/*!  <description>Simulate scrolling up with mouse scroll wheel.</description>
+/*!  <argument name="scrollLinesCount" type="int" optional="true">Specifies speed of scrolling. If this parameter is not given, the service reads the value from system settings.</argument>
+/*! </service> */
 BEGIN_PPRO_SVC( scrollup )
 {
 	if( CheckArgumentsCount( ServiceScrollup, &pp ) )
@@ -98,6 +102,10 @@ BEGIN_PPRO_SVC( scrollup )
 END_PPRO_SVC
 
 
+/*! <service name="ScrollDown">
+/*!  <description>Simulate scrolling down with mouse scroll wheel.</description>
+/*!  <argument name="scrollLinesCount" type="int" optional="true">Specifies speed of scrolling. If this parameter is not given, the service reads the value from system settings.</argument>
+/*! </service> */
 BEGIN_PPRO_SVC( scrolldown )
 {
 	if( CheckArgumentsCount( ServiceScrolldown, &pp ) )

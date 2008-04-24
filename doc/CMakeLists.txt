@@ -31,10 +31,14 @@ add_custom_command( OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/services.xml"
 			"${CMAKE_CURRENT_BINARY_DIR}/services.xml"			
 			"${CMAKE_CURRENT_SOURCE_DIR}/../src/Wheel.c"
 			"${CMAKE_CURRENT_SOURCE_DIR}/../src/Eject.c"
+			"${CMAKE_CURRENT_SOURCE_DIR}/../src/IdleTimers.c"
+			"${CMAKE_CURRENT_SOURCE_DIR}/../src/RunAs.c"
 	DEPENDS
 		"${CMAKE_CURRENT_SOURCE_DIR}/extract-services-descriptions.ps1"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../src/Wheel.c"
 		"${CMAKE_CURRENT_SOURCE_DIR}/../src/Eject.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../src/IdleTimers.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../src/RunAs.c"
 	COMMENT
 		"Extract services' descriptions and store them all in one XML file." )
 

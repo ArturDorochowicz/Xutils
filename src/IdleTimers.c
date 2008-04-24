@@ -25,6 +25,15 @@
 #include "Xutils.h"
 
 
+
+/*! <service name="DisableIdleTimers">
+/*!  <description>Disable operating system idle timers.
+/*!   There are two idle timers: system idle timer and display idle timer, their
+/*!   timeout values can be defined in Power Management applet of Windows Control Panel.
+/*!   Calling this service prevents the system from entering the sleeping power 
+/*!   state or turning off the display.</description>
+/*!  <argument name="disableScreenSaver" type="int" optional="true">Specify 1 to also disable the screen saver.</argument>
+/*! </service> */
 BEGIN_PPRO_SVC( disableidletimers )
 {
 	if( CheckArgumentsCount( ServiceDisableidletimers, &pp ) )
@@ -41,6 +50,18 @@ BEGIN_PPRO_SVC( disableidletimers )
 END_PPRO_SVC
 
 
+/*! <service name="EnableIdleTimers">
+/*!  <description>Enable operating system idle timers.
+/*!   There are two idle timers: system idle timer and display idle timer, their
+/*!   timeout values can be defined in Power Management applet of Windows Control Panel.
+/*!   Calling this service after DisableIdleTimers() reenables the system to use
+/*!   the idle timers. <br />
+/*!   Please note that the system keeps track of disabling/enabling requests on
+/*!   a per thread basis and calling this service might not enable idle timers,
+/*!   if other thread requested disabling them.
+/*!   </description>
+/*!  <argument name="enableScreenSaver" type="int" optional="true">Specify 1 to also enable the screen saver.</argument>
+/*! </service> */
 BEGIN_PPRO_SVC( enableidletimers )
 {
 	if( CheckArgumentsCount( ServiceEnableidletimers, &pp ) )

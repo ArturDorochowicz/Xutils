@@ -126,6 +126,10 @@ BEGIN_PPRO_SVC( ejectcd )
 END_PPRO_SVC
 
 
+/*! <service name="LoadCd">
+/*!  <description>Close door of specified CD drive. Without parameter closes door of the first CD drive in the system.</description>
+/*!  <argument name="cdDriveLetter" type="string" optional="true">Letter of CD drive to use.</argument>
+/*! </service> */
 BEGIN_PPRO_SVC( loadcd )
 {
 	if( CheckArgumentsCount( ServiceLoadcd, &pp ) )

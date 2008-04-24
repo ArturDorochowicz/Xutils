@@ -193,6 +193,14 @@ BOOL SuDo( const wchar_t * programPath, const wchar_t * programArguments, const 
 /*---------------------------------------------------------------------------*/
 
 
+
+/*! <service name="RunAs">
+/*!  <description>Starts an application using given credentials. The service asks for credentials.</description>
+/*!  <argument name="programPath" type="string">The path to the executable to run.</argument>
+/*!  <argument name="programArguments" type="string" optional="true">Arguments for the executable.</argument>
+/*!  <argument name="userName" type="string" optional="true">User name used in dialog prompting for credentials.</argument>
+/*!  <argument name="workingDirectory" type="string" optional="true">Initial working directory for the new process.</argument>
+/*! </service> */
 BEGIN_PPRO_SVC( runas )
 {
 	wchar_t * preselectedUserName = NULL;
@@ -219,6 +227,12 @@ BEGIN_PPRO_SVC( runas )
 END_PPRO_SVC
 
 
+/*! <service name="SuDo">
+/*!  <description>Starts an application using built-in local administrator account. The service asks for administrator's password.</description>
+/*!  <argument name="programPath" type="string">The path to the executable to run.</argument>
+/*!  <argument name="programArguments" type="string" optional="true">Arguments for the executable.</argument>
+/*!  <argument name="workingDirectory" type="string" optional="true">Initial working directory for the new process.</argument>
+/*! </service> */
 BEGIN_PPRO_SVC( sudo )
 {
 	wchar_t * programPath = NULL;

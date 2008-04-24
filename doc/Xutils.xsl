@@ -89,7 +89,7 @@
 			<xsl:apply-templates select="@*"/>
 			<!-- add list of services -->
 			<xsl:for-each select="$services/group">
-				<xsl:sort select="service" order="ascending"/>
+				<xsl:sort select="@name" order="ascending"/>
 				<xsl:for-each select="service">
 					<xsl:sort select="@name" order="ascending"/>
 					<li>
@@ -109,7 +109,7 @@
 			<xsl:apply-templates select="@*"/>
 			<!-- add descriptions -->
 			<xsl:for-each select="$services/group">
-				<xsl:sort select="service" order="ascending"/>
+				<xsl:sort select="@name" order="ascending"/>
 				<xsl:for-each select="service">
 					<xsl:sort select="@name" order="ascending"/>
 					<li id="{generate-id()}">
@@ -147,6 +147,7 @@
 										<span>
 											<xsl:value-of select="normalize-space(@name)"/>
 										</span>
+										<xsl:if test="@optional='true'">&#160;&#160;&#160;optional</xsl:if>
 									</dt>
 									<dd>
 										<xsl:apply-templates select="self::node()"/>
