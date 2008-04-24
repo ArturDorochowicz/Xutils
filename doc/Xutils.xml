@@ -221,10 +221,9 @@
 
 		<p>Xutils plugin for PowerPro is a set of miscellaneous services.</p>
 		<p>
-			It has been tested on Windows XP only. Some of the services require Windows
-			XP or newer operating system.
+			The plugin requires Windows XP or newer operating system and PowerPro 
+			version 4.5.12 or newer.
 		</p>
-		<p>The plugin requires PowerPro version 4.5.12 or newer.</p>
 
 		<h1>List of services</h1>
 
