@@ -103,6 +103,10 @@ BOOL LoadCd( char driveLetter )
 /*---------------------------------------------------------------------------*/
 
 
+/*! <service name="EjectCd">
+/*!  <description>Eject CD in the specified CD drive. Without parameter ejects first CD drive in the system.</description>
+/*!  <argument name="cdDriveLetter" type="string" optional="true">Letter of CD drive to use.</argument>
+/*! </service> */
 BEGIN_PPRO_SVC( ejectcd )
 {
 	if( CheckArgumentsCount( ServiceEjectcd, &pp ) )

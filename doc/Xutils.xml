@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
+[	<!ENTITY nbsp "&#160;">
+	<!ENTITY copy "&#169;">
+	<!ENTITY ndash "&#8211;">
+	<!ENTITY mdash "&#8212;">
+]>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Xutils plugin for PowerPro</title>
+		<style type="text/css">
+	              /* begin reset styles */
+                body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+                        margin:0;
+                        padding:0;
+                }
+                table {
+                        border-collapse:collapse;
+                        border-spacing:0;
+                }
+                fieldset, img { 
+                        border:0;
+                }
+                address, caption, cite, code, dfn, em, strong, th, var {
+                        font-style:normal;
+                        font-weight:normal;
+                }
+                ol, ul {
+                        list-style:none;
+                }
+                caption, th {
+                        text-align:left;
+                }
+                h1, h2, h3, h4, h5, h6 {
+                        font-size:100%;
+                        font-weight:normal;
+                }
+                q:before, q:after {
+                        content:'';
+                }
+                abbr, acronym {
+                        border:0;
+                }
+                /* end reset styles */
+
+                body {
+                        font-size: 14px;
+                        font-family: Verdana, Arial, Helvetica, sans-serif;
+                        line-height: 135%;
+                        margin: 20px auto;
+                        text-align: justify;
+                        width: 80%;
+                }
+
+                hr {
+                        margin: 10px 0;
+                }
+
+                h1 {
+                        font-size: 130%;
+                        font-weight: bold;
+                        margin: 20px 0 10px 0;
+                }
+
+                p {
+                        margin: 10px 0 0 0;
+                }
+
+                ul {
+                        list-style-type: disc;
+                        list-style-position: inside;
+                }
+
+                ol {
+                        list-style-type: decimal;
+                        list-style-position: inside;
+                }
+
+                ul>li, ol>li {
+                        padding-left: 20px;
+                }
+
+                div#softwareName {
+                        font-size: 120%;
+                        font-weight: bold;
+                }
+
+                ol#tableOfContents {
+                }
+
+                ul#listOfServices {
+                }
+
+                ul#servicesDescriptions {
+                        list-style-position: outside;
+                        list-style-type: none;
+                }
+                
+                ul#servicesDescriptions>li {
+                        margin-top: 20px;
+                        padding-left: 20px;
+                        padding-right: 15px;
+                        position: relative;
+                }
+                
+                ul#servicesDescriptions>li>h4 {
+                        font-size: 85%;
+                        font-weight: bold;
+                        margin: 5px -15px 2px -20px;
+                        padding-left: 5px;
+                }
+
+                ul#servicesDescriptions>li div:first-child {
+                        background-color: #eee;
+                        color: inherit;
+                        font-weight: bold;
+                        font-family: "Courier New", Courier, monospace;
+                        font-size: 110%;
+                        margin: 0 -15px 4px -20px;
+                        padding: 2px 3.4em 2px 6px;
+                }
+
+                ul#servicesDescriptions>li div:first-child + a {
+                        font-size: 80%;
+                        padding: 2px 0px;
+                        position: absolute;
+                        right: 0;
+                        text-align: right;
+                        top: 0;
+                }
+
+                ul#servicesDescriptions>li p {
+                        margin: 0;
+                }
+
+                ul#servicesDescriptions>li>dl {
+                        list-style-type: none;
+                }
+
+                ul#servicesDescriptions>li>dl>dt {
+                        font-size: 95%;
+                        font-style: italic;
+                        margin-top: 2px;
+                }
+                
+                ul#servicesDescriptions>li>dl>dt>span {
+                        font-style: normal;
+                }
+
+                ul#servicesDescriptions>li>dl>dd {
+                        margin-left: 30px;
+                }
+
+                .code {
+                        font-family: "Courier New", Courier, monospace;
+                }
+
+                ol#versionsList {
+                        list-style-position: outside;
+                        list-style-type: none;
+                        padding-left: 20px;
+                }
+
+                ol#versionsList>li {
+                        margin-top: 15px;
+                        padding-left: 0;
+                }
+
+                ol#versionsList>li>ul {
+                        list-style-position: outside;
+                        list-style-type: disc;
+                        padding-left: 25px;
+                }
+
+                ol#versionsList>li>ul>li {
+                        padding-left: 0;
+                }		
+		</style>
+	</head>
+	<body>
+		<div id="softwareName">Xutils <span id="pluginVersion">version</span></div>
+
+		<p>
+			Copyright &copy; 2005&ndash;<span id="lastCopyrightYear">year</span> Artur Dorochowicz <br />
+		</p>
+		<p>
+			Released under the terms of the MIT/X11 licence.
+		</p>
+		<p style="font-size: 70%; padding-left: 30px; padding-right: 30px;">
+			Permission is hereby granted, free of charge, to any person obtaining a copy
+			of this software and associated documentation files (the "Software"), to deal
+			in the Software without restriction, including without limitation the rights
+			to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+			copies of the Software, and to permit persons to whom the Software is
+			furnished to do so, subject to the following conditions:<br/><br/>
+
+			The above copyright notice and this permission notice shall be included in
+			all copies or substantial portions of the Software.<br/><br/>
+
+			THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+			IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+			FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+			AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+			LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+			OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+			THE SOFTWARE.
+		</p>
+		
+		<hr/>
+
+		<h1>Table of contents</h1>
+
+		<ol id="tableOfContents">
+			<li><a href="#section">table of contents entries</a></li>
+		</ol>
+		
+		<hr/>
+
+		<h1>Overview</h1>
+
+		<p>Xutils plugin for PowerPro is a set of miscellaneous services. <br/>
+		   It has been tested on Windows XP only. Some of the services require Windows
+		   XP or newer operating system.
+		</p>
+		<p>The plugin requires PowerPro version 4.5.12 or newer.</p>
+
+		<h1>List of services</h1>
+
+		<ul id="listOfServices">
+			<li>
+				<a href="#example_service">list of services</a>
+			</li>
+		</ul>
+
+		<h1>Installation</h1>
+
+		<p>
+			The plugin must be placed in PowerPro's <span class="code">plugins</span> directory. 
+			After that its services can be used just like services of any other plugin.
+			Read PowerPro's help for general information on using plugins.
+		</p>
+
+		<h1>Description of services</h1>
+    
+        <p>
+			In the desciptions below the following data types are used:
+		</p>		
+		<ul>
+			<li>string - possible PowerPro arguments are: string, integer (is converted to string)</li>
+			<li>int - integer, possible PowerPro arguments are: integer, string (containing an integer), float (is truncated to integer)</li>
+			<li>float - possible PowerPro arguments are: float, integer, string (containing a float)</li>
+			<li>mixed - the actual type depends on the value of one of arguments</li>
+		</ul>
+		
+		<ul id="servicesDescriptions">
+			<li id="example_service">
+				<div>
+					example_service( argument1, argument2, argument3 )
+				</div>
+				<a href="#listOfServices">Go up</a>
+
+				<p>
+					The description of the example_service. The description of the example_service.
+					The description of the example_service. The description of the example_service.
+					The description of the example_service. The description of the example_service.
+				</p>
+
+				<h4>Requirements</h4>
+				<p>
+					The requirements go here.
+				</p>
+
+				<h4>Parameters</h4>
+				<dl>
+					<dt>
+						string <span>argument1</span>
+					</dt>
+					<dd>
+						The argument1 description.
+					</dd>
+					<dt>
+						float <span>argument2</span>
+					</dt>
+					<dd>
+						The argument2 description.
+					</dd>
+					<dt>
+						int <span>argument3</span>
+					</dt>
+					<dd>
+						The argument3 description.
+					</dd>
+				</dl>
+
+				<h4>Return value</h4>
+				<dl>
+					<dt>mixed</dt>
+					<dd>The return value description.</dd>					
+				</dl>
+			</li>
+		</ul>
+
+		<h1>History</h1>
+
+		<ol id="versionsList">
+			<li>1.0.1 - 2007-01-01
+				<ul>
+					<li>Fixed: Resource leak in RunAs functionality.</li>
+				</ul>
+			</li>
+			<li>1.0 - 2005-11-22
+				<ul>
+					<li>Initial release.</li>
+					<li>Hardly any error reporting.</li>
+				</ul>
+			</li>
+		</ol>
+
+		<h1>Contacting the author</h1>
+
+		<p>All comments, feature requests, bug reports are welcome and appreciated.<br/>
+			Please use Yahoo PowerPro group to contact the author.
+		</p>
+
+	</body>
+</html>

@@ -20,7 +20,7 @@ set( XUTILS_VERSION_BUILD     "2" )
 set( XUTILS_VERSION_REVISION  "0" )
 
 
-# add_subdirectory( "doc" )
+add_subdirectory( "doc" )
 add_subdirectory( "src" )
 
 
@@ -32,17 +32,17 @@ set( DISTRIBUTION_DIR
 
 get_target_property( XUTILS_LOCATION "Xutils" "LOCATION" )
 
-# add_custom_target( "Distribution"
-	# COMMAND
-		# "${CMAKE_COMMAND}"
-			# -E "make_directory" "${DISTRIBUTION_DIR}"
-	# COMMAND
-		# "${CMAKE_COMMAND}"
-			# -E "copy" "${CMAKE_CURRENT_BINARY_DIR}/doc/Xutils.html" "${DISTRIBUTION_DIR}"
-	# COMMAND
-		# "${CMAKE_COMMAND}"
-			# -E "copy" "${XUTILS_LOCATION}" "${DISTRIBUTION_DIR}" )
+add_custom_target( "Distribution"
+	COMMAND
+		"${CMAKE_COMMAND}"
+			-E "make_directory" "${DISTRIBUTION_DIR}"
+	COMMAND
+		"${CMAKE_COMMAND}"
+			-E "copy" "${CMAKE_CURRENT_BINARY_DIR}/doc/Xutils.html" "${DISTRIBUTION_DIR}"
+	COMMAND
+		"${CMAKE_COMMAND}"
+			-E "copy" "${XUTILS_LOCATION}" "${DISTRIBUTION_DIR}" )
 
-# add_dependencies( "Distribution"
-	# "Xutils"
-	# "Documentation" )
+add_dependencies( "Distribution"
+	"Xutils"
+	"Documentation" )

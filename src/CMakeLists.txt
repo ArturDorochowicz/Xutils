@@ -38,7 +38,16 @@ set( SOURCES
 	"resources.rc"
 	"version.h.cmake"
 	"${CMAKE_CURRENT_BINARY_DIR}/version.h"
-	"${CMAKE_CURRENT_SOURCE_DIR}/include/powerpro.h" )
+	"${CMAKE_CURRENT_SOURCE_DIR}/include/powerpro.h"
+# Need to add them somewhere, so they can be easily reached from VS.
+# There is no way to do it in Documentation target.	
+	"${CMAKE_CURRENT_SOURCE_DIR}/../doc/Xutils.xsl"
+	"${CMAKE_CURRENT_SOURCE_DIR}/../doc/Xutils.xml" )
+	
+source_group( "Documentation Files"
+	FILES
+		"${CMAKE_CURRENT_SOURCE_DIR}/../doc/Xutils.xsl"
+		"${CMAKE_CURRENT_SOURCE_DIR}/../doc/Xutils.xml" )
 
 SET( LIBRARIES
 	"credui" )
