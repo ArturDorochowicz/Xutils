@@ -1,0 +1,303 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Xutils plugin for PowerPro</title>
+		<style type="text/css">
+			<!--
+			body, h1, h2, h3, h4, h5, h6 {
+				padding: 0;
+				margin: 0;
+			}
+
+			body {
+				font-size: 14px;
+				line-height: 135%;
+				font-family: Verdana, Arial, Helvetica, sans-serif;
+				width: 80%;
+				margin: 10px auto;
+				text-align:justify;
+			}
+
+			hr {
+				margin: 10px 0;
+			}
+
+			h1 {
+				margin-top: 20px;
+				margin-bottom: 2px;
+				font-size: 130%;
+				font-weight: bold;
+			}
+
+			p {
+				margin-bottom: 3px;
+			}
+
+			.softwareName {
+				font-size: 120%;
+				font-weight: bold;
+			}
+
+			.tableOfContents {
+			}
+
+			.servicesList {
+			}
+
+			h1.section {
+				font-size: 18px;
+				font-weight: bold;
+				margin-top: 20px;
+				margin-bottom: 2px;
+			}
+
+			.serviceDescription {
+				margin-top: 18px;
+			}
+
+			.serviceDefinition {
+				background-color: #eee;
+				color: inherit;
+				padding: 2px 5px;
+				font-weight: bold;
+				font-family: "Courier New", Courier, monospace;
+				font-size: 110%;
+				margin-bottom: 3px;
+			}
+
+			.serviceDescription h4 {
+				margin-top: 5px;
+				margin-left: 5px;
+				font-size: 85%;
+				font-weight: bold;
+			}
+
+			.serviceDescriptionText {
+				margin-left: 20px;				
+			}
+
+			.serviceArgumentsList {  
+				list-style-type: none;
+				margin-top: 0;
+				margin-left: 20px;
+			}
+
+			.serviceArgumentsList dt {
+				font-size: 95%;
+				font-style: italic;
+			}
+
+			.serviceArgumentsList dd {
+				margin-left: 30px;
+			}
+
+			.versionsList {
+				list-style-type: square;
+				margin-left: 35px;
+			}
+			
+			.versionsList > li {
+				margin-bottom: 10px;
+			}
+
+			.changesList {
+			}
+			-->
+		</style>
+	</head>
+	<body>
+
+		<p class="softwareName">Xutils 1.0.1</p>
+		<p>Copyright &copy; 2005&ndash;2007  Artur Dorochowicz</p>
+		<hr/>
+		<p>Released under the terms of the <a href="License.txt">GNU Lesser General Public License</a>.</p>
+		<p>This library is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version. This library is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more details. You should have received a copy of the GNU Lesser General Public License along with this library; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA </p>
+		<hr/>
+
+		<h1>Table of contents</h1>
+
+		<ol class="tableOfContents">
+			<li><a href="#Overview">Overview</a></li>
+			<li><a href="#ListOfServices">List of services</a></li>
+			<li><a href="#Installation">Installation</a></li>
+			<li><a href="#DescriptionOfServices">Description of services</a></li>
+			<li><a href="#History">History</a></li>
+			<li><a href="#ContactingTheAuthor">Contacting the author</a></li>
+		</ol>
+		<hr/>
+
+		<h1 class="section">1. <a id="Overview">Overview</a></h1>
+
+		<p>Xutils plugin for PowerPro is a set of miscellaneous services. <br/>It has been tested on Windows XP only. Some of the services require Windows XP or newer operating system.</p>
+
+		<h1 class="section">2. <a id="ListOfServices">List of services</a></h1>
+
+		<ul class="servicesList">
+			<li><a href="#EjectCd">EjectCd</a></li>
+			<li><a href="#LoadCd">LoadCd</a></li>
+			<li><a href="#EnableIdleTimers">EnableIdleTimers</a></li>
+			<li><a href="#DisableIdleTimers">DisableIdleTimers</a></li>
+			<li><a href="#RunAs">RunAs</a></li>
+			<li><a href="#SuDo">SuDo</a></li>
+			<li><a href="#ScrollDown">ScrollDown</a></li>
+			<li><a href="#ScrollUp">ScrollUp</a></li>
+		</ul>
+
+		<h1 class="section">3. <a id="Installation">Installation</a></h1>
+
+		<p>The plugin must be placed in PowerPro's 'plugins' directory. After that its services can be used just like services of any other plugin. Read PowerPro's help for general information on using plugins.</p>
+
+		<h1 class="section">4. <a id="DescriptionOfServices">Description of services</a></h1>
+
+		<div class="serviceDescription">
+			<div class="serviceDefinition"><a id="EjectCd">EjectCd( cdDriveLetter )</a></div>
+			<div class="serviceDescriptionText">Ejects CD in the specified CD drive. Without parameter ejects first CD drive in the system.</div>
+
+			<h4>Parameters</h4>
+			<dl class="serviceArgumentsList">
+				<dt>cdDriveLetter</dt>
+				<dd>[optional] Letter of CD drive to use.</dd>
+			</dl>
+
+			<h4>Return value</h4>
+			<div class="serviceDescriptionText">No return value.</div>
+		</div>
+
+		<div class="serviceDescription">
+			<div class="serviceDefinition"><a id="LoadCd">LoadCd( cdDriveLetter )</a></div>
+			<div class="serviceDescriptionText">Closes door of specified CD drive. Without parameter closes door of the first CD drive in the system.</div>
+
+			<h4>Parameters</h4>
+			<dl class="serviceArgumentsList">
+				<dt>cdDriveLetter</dt>
+				<dd>[optional] Letter of CD drive to use.</dd>
+			</dl>
+
+			<h4>Return value</h4>
+			<div class="serviceDescriptionText">No return value.</div>
+		</div>
+
+		<div class="serviceDescription">
+			<div class="serviceDefinition"><a id="EnableIdleTimers">EnableIdleTimers( enableScreenSaver )</a></div>
+			<div class="serviceDescriptionText">Enables operating system idle timers. There are two idle timers: system idle timer and display idle timer, their timeout values can be defined in Power Management applet of Windows Control Panel. Calling this service after DisableIdleTimers() reenables the system to use the idle timers. Please note that the system keeps track of disabling/enabling requests on a per thread basis and calling this service might not enable idle timers, if other thread requested disabling them.</div>
+			
+			<h4>Parameters</h4>
+			<dl class="serviceArgumentsList">
+				<dt>enableScreenSaver</dt>
+				<dd>[optional] Specify &quot;1&quot; to also enable screen saver.</dd>
+			</dl>                                                     
+			
+			<h4>Return value</h4>
+			<div class="serviceDescriptionText">No return value.</div>
+		</div>
+
+		<div class="serviceDescription">
+			<div class="serviceDefinition"><a id="DisableIdleTimers">DisableIdleTimers( disableScreenSaver )</a></div>
+			<div class="serviceDescriptionText">Disables operating system idle timers. There are two idle timers: system idle timer and display idle timer, their timeout values can be defined in Power Management applet of Windows Control Panel. Calling this service prevents the system from entering the sleeping power state or turning off the display.</div>
+			
+			<h4>Parameters</h4>
+			<dl class="serviceArgumentsList">
+				<dt>disableScreenSaver</dt>
+				<dd>[optional] Specify &quot;1&quot; to also disable screen saver.</dd>
+			</dl>
+			
+			<h4>Return value</h4>
+			<div class="serviceDescriptionText">No return value.</div>
+		</div>
+
+		<div class="serviceDescription">
+			<div class="serviceDefinition"><a id="RunAs">RunAs( programPath, programArguments, userName, workingDirectory )</a></div>
+			<div class="serviceDescriptionText">Starts an application using given credentials. The service asks for credentials.</div>
+			
+			<h4>Parameters</h4>
+			<dl class="serviceArgumentsList">
+				<dt>programPath</dt>
+				<dd>[required] Path to executable to run.</dd>
+				
+				<dt>programArguments</dt>
+				<dd>[optional] Arguments for the executable.</dd>
+				
+				<dt>userName</dt>
+				<dd>[optional] User name used in dialog prompting for credentials.</dd>
+				
+				<dt>workingDirectory</dt>
+				<dd>[optional] Initial working directory for the new process.</dd>
+			</dl>
+			
+			<h4>Return value</h4>
+			<div class="serviceDescriptionText">No return value.</div>
+		</div>
+
+		<div class="serviceDescription">
+			<div class="serviceDefinition"><a id="SuDo">SuDo( programPath, programArguments, workingDirectory )</a></div>
+			<div class="serviceDescriptionText">Starts an application using built-in local administrator account. The service asks for administrator's password.</div>
+			
+			<h4>Parameters</h4>
+			<dl class="serviceArgumentsList">
+				<dt>programPath</dt>
+				<dd>[required] Path to executable to run.</dd>
+				
+				<dt>programArguments</dt>
+				<dd>[optional] Arguments for the executable.</dd>
+				
+				<dt>workingDirectory</dt>
+				<dd>[optional] Initial working directory for the new process.</dd>
+			</dl>
+			
+			<h4>Return value</h4>
+			<div class="serviceDescriptionText">No return value.</div>
+		</div>
+
+		<div class="serviceDescription">
+			<div class="serviceDefinition"><a id="ScrollDown">ScrollDown( scrollLinesCount )</a></div>
+			<div class="serviceDescriptionText">Simulates scrolling down with mouse scroll wheel.</div>
+			
+			<h4>Parameters</h4>
+			<dl class="serviceArgumentsList">
+				<dt>scrollLinesCount</dt>
+				<dd>[optional] Specifies the speed of scrolling. If this parameter is not given, the service reads the value from system settings.</dd>
+			</dl>
+			
+			<h4>Return value</h4>
+			<div class="serviceDescriptionText">No return value.</div>
+		</div>
+
+		<div class="serviceDescription">
+			<div class="serviceDefinition"><a id="ScrollUp">ScrollUp( scrollLinesCount )</a></div>
+			<div class="serviceDescriptionText">Simulates scrolling up with mouse scroll wheel.</div>
+		
+			<h4>Parameters</h4>
+			<dl class="serviceArgumentsList">
+				<dt>scrollLinesCount</dt>
+				<dd>[optional] Specifies speed of scrolling. If this parameter is not given, the service reads the value  from system settings.</dd>
+			</dl>
+		
+			<h4>Return value</h4>
+			<div class="serviceDescriptionText">No return value.</div>
+		</div>
+
+		<h1 class="section">5. <a id="History">History</a></h1>
+
+		<ul class="versionsList">
+			<li>v 1.0.1  2007-01-01
+				<ul class="changesList">
+					<li>Fixed: Resource leak in RunAs functionality.</li>
+				</ul>
+			</li>
+			<li>v 1.0  2005-11-22
+				<ul class="changesList">
+					<li>Initial release.</li>
+					<li>Hardly any error reporting.</li>
+				</ul>
+			</li>
+		</ul>
+
+		<h1 class="section">6. <a id="ContactingTheAuthor">Contacting the author</a></h1>
+
+		<p>All comments, feature requests, bug reports are welcome and greatly appreciated.<br/>
+			Please use Yahoo PowerPro group for any of the above.
+		</p>
+
+	</body>
+</html>
