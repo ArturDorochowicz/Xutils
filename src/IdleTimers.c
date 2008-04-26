@@ -35,15 +35,15 @@
 /*! </service> */
 BEGIN_PPRO_SVC( disableidletimers )
 {
-	if( CheckArgumentsCount( ServiceDisableIdleTimers, pp ) )
-	{
-		SetThreadExecutionState( ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED | ES_CONTINUOUS );
+	if( FALSE == CheckArgumentsCount( pp, 0, 1 ) )
+		return;
+		
+	SetThreadExecutionState( ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED | ES_CONTINUOUS );
 
-		if( 1 == pp->argc && 0 == strcmp( pp->argv[0], "1" ) )
-		{
-			/* use PP's built-in functionality */
-			pp->svcs->RunCmd( "ScreenSaver.disable", "", "" );
-		}
+	if( 1 == pp->argc && 0 == strcmp( pp->argv[0], "1" ) )
+	{
+		/* use PP's built-in functionality */
+		pp->svcs->RunCmd( "ScreenSaver.disable", "", "" );
 	}
 }
 END_PPRO_SVC
@@ -63,15 +63,16 @@ END_PPRO_SVC
 /*! </service> */
 BEGIN_PPRO_SVC( enableidletimers )
 {
-	if( CheckArgumentsCount( ServiceEnableIdleTimers, pp ) )
-	{
-		SetThreadExecutionState( ES_CONTINUOUS );
+	if( FALSE == CheckArgumentsCount( pp, 0, 1 ) )
+		return;
+	
+	SetThreadExecutionState( ES_CONTINUOUS );
 
-		if( 1 == pp->argc && 0 == strcmp( pp->argv[0], "1" ) )
-		{
-			/* use PP's built-in functionality */
-			pp->svcs->RunCmd( "ScreenSaver.enable", "", "" );
-		}
+	if( 1 == pp->argc && 0 == strcmp( pp->argv[0], "1" ) )
+	{
+		/* use PP's built-in functionality */
+		pp->svcs->RunCmd( "ScreenSaver.enable", "", "" );
 	}
 }
 END_PPRO_SVC
+

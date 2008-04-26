@@ -89,7 +89,7 @@ static int GetWheelScrollLines( )
 /*! </service> */
 BEGIN_PPRO_SVC( scrollup )
 {
-	if( CheckArgumentsCount( ServiceScrollUp, pp ) )
+	if( TRUE == CheckArgumentsCount( pp, 0, 1 ) )
 	{
 		double scrollLines;
 		
@@ -111,13 +111,13 @@ END_PPRO_SVC
 /*! </service> */
 BEGIN_PPRO_SVC( scrolldown )
 {
-	if( CheckArgumentsCount( ServiceScrollDown, pp ) )
+	if( TRUE == CheckArgumentsCount( pp, 0, 1 ) )
 	{
 		double scrollLines;
 
 		/* get the argument or read it from the system */
 		if( 1 == pp->argc )		
-			scrollLines= pp->svcs->DecodeFloat( pp->argv[0] );
+			scrollLines = pp->svcs->DecodeFloat( pp->argv[0] );
 		else
 			scrollLines = GetWheelScrollLines( );
 

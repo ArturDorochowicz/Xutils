@@ -56,111 +56,50 @@ void ShowLastError( PPROSERVICES *pproServices )
 }
 
 
-BOOL CheckArgumentsCount( Services service, PPROHELPER *pp )
+BOOL CheckArgumentsCount( PPROHELPER *pp, unsigned int minArgsRequired, unsigned int maxArgsRequired )
 {
-	BOOL nArgsOk = TRUE;
-	
-	static const char ARGS_MAX_1[] = "The service needs at most one argument.";
-	static const char ARGS_MAX_3[] = "The service needs at most three arguments.";
-	static const char ARGS_MAX_4[] = "The service needs at most four arguments.";
-
-	static const char ARGS_MIN_1[] = "The service needs at least one argument.";
-
-	switch( service )
+	if( pp->argc < minArgsRequired )
 	{
-		case ServiceSuDo:
+		const char *errorMsg;
+
+		switch( minArgsRequired )
 		{
-			if( pp->argc > 3 )
-			{
-				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_3, pp->svcs );
-			}
-			else if( pp->argc < 1 )
-			{
-				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MIN_1, pp->svcs );
-			}
+		case 1:
+			errorMsg = "The service needs at least one argument.";
+			break;
+		default:
+			errorMsg = "Not enough arguments for the service.";
 			break;
 		}
 
-		case ServiceRunAs:
+		ShowErrorMessage( errorMsg, pp->svcs );
+		return FALSE;
+	}
+	else if( pp->argc > maxArgsRequired )
+	{
+		const char *errorMsg;
+		
+		switch( maxArgsRequired )
 		{
-			if( pp->argc > 4 )
-			{
-				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_4, pp->svcs );
-			}
-			else if( pp->argc < 1 )
-			{
-				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MIN_1, pp->svcs );
-			}
+		case 1:
+			errorMsg = "The service needs at most one argument.";
+			break;
+		case 3:
+			errorMsg = "The service needs at most three arguments.";
+			break;
+		case 4:
+			errorMsg = "The service needs at most four arguments.";
+			break;
+		default:
+			errorMsg = "Too many arguments for the service.";
 			break;
 		}
 
-		case ServiceEjectCd:
-		{
-			if( pp->argc > 1 )
-			{
-				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_1, pp->svcs );
-			}
-			break;
-		}
-
-		case ServiceLoadCd:
-		{
-			if( pp->argc > 1 )
-			{
-				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_1, pp->svcs );
-			}
-			break;
-		}
-
-		case ServiceDisableIdleTimers:
-		{
-			if( pp->argc > 1 )
-			{
-				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_1, pp->svcs );
-			}
-			break;
-		}
-
-		case ServiceEnableIdleTimers:
-		{
-			if( pp->argc > 1 )
-			{
-				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_1, pp->svcs );
-			}
-			break;
-		}
-
-		case ServiceScrollUp:
-		{
-			if( pp->argc > 1 )
-			{
-				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_1, pp->svcs );
-			}
-			break;
-		}
-
-		case ServiceScrollDown:
-		{
-			if( pp->argc > 1 )
-			{
-				nArgsOk = FALSE;
-				ShowErrorMessage( ARGS_MAX_1, pp->svcs );
-			}
-			break;
-		}
-
+		ShowErrorMessage( errorMsg, pp->svcs );
+		return FALSE;
 	}
 
-	return nArgsOk;
+	return TRUE;
 }
 
 

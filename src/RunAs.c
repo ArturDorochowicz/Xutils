@@ -206,7 +206,7 @@ static BOOL SuDo( const wchar_t *programPath, const wchar_t *programArguments,
 /*! </service> */
 BEGIN_PPRO_SVC( runas )
 {
-	if( CheckArgumentsCount( ServiceRunAs, pp ) )
+	if( TRUE == CheckArgumentsCount( pp, 1, 4 ) )
 	{
 		wchar_t *preselectedUserName = NULL;
 		wchar_t *programPath = NULL;
@@ -239,7 +239,7 @@ END_PPRO_SVC
 /*! </service> */
 BEGIN_PPRO_SVC( sudo )
 {
-	if( CheckArgumentsCount( ServiceSuDo, pp ) )
+	if( TRUE == CheckArgumentsCount( pp, 1, 3 ) )
 	{
 		wchar_t *programPath = NULL;
 		wchar_t *programArguments = NULL;

@@ -31,19 +31,6 @@
 #include "powerpro.h"
 
 
-typedef enum Services
-{
-	ServiceRunAs,
-	ServiceSuDo,
-	ServiceEjectCd,
-	ServiceLoadCd,
-	ServiceDisableIdleTimers,
-	ServiceEnableIdleTimers,
-	ServiceScrollUp,
-	ServiceScrollDown
-} Services;
-
-
 /**
  * Display error message.
  * Message is displayed with PPROSERVICES->ErrMessage
@@ -58,10 +45,13 @@ void ShowErrorMessage( const char *message, PPROSERVICES *pproServices );
 void ShowLastError( PPROSERVICES *pproServices );
 
 
-/**
- * Check number of arguments.
+/** Validate number of arguments provided and show error message if necessary.
+ *  @param pp PowerPro helper object.
+ *  @param minArgsRequired Minimum number of required arguments.
+ *  @param maxArgsRequired Maximum number of required arguments.
+ *  @return TRUE if number of provided arguments is within the range, FALSE otherwise.
 **/
-BOOL CheckArgumentsCount( Services service, PPROHELPER *pp );
+BOOL CheckArgumentsCount( PPROHELPER *pp, unsigned int minArgsRequired, unsigned int maxArgsRequired );
 
 
 /**

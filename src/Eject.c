@@ -113,7 +113,7 @@ static BOOL LoadCd( char driveLetter )
 /*! </service> */
 BEGIN_PPRO_SVC( ejectcd )
 {
-	if( CheckArgumentsCount( ServiceEjectCd, pp ) )
+	if( TRUE == CheckArgumentsCount( pp, 0, 1 ) )
 	{
 		char cdDriveLetter;
 
@@ -136,7 +136,7 @@ END_PPRO_SVC
 /*! </service> */
 BEGIN_PPRO_SVC( loadcd )
 {
-	if( CheckArgumentsCount( ServiceLoadCd, pp ) )
+	if( TRUE == CheckArgumentsCount( pp, 0, 1 ) )
 	{
 		char cdDriveLetter;
 
