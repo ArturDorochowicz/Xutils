@@ -40,22 +40,6 @@ void ShowErrorMessage( const char *message, PPROSERVICES *pproServices )
 }
 
 
-void ShowLastError( PPROSERVICES *pproServices )
-{
-	char *messageBuffer;
-
-	FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
-		NULL,
-		GetLastError( ),
-		MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),
-		(char*) &messageBuffer,
-		0, NULL );
-
-	ShowErrorMessage( messageBuffer, pproServices );
-	LocalFree( messageBuffer );
-}
-
-
 BOOL CheckArgumentsCount( PPROHELPER *pp, unsigned int minArgsRequired, unsigned int maxArgsRequired )
 {
 	if( pp->argc < minArgsRequired )
@@ -100,29 +84,4 @@ BOOL CheckArgumentsCount( PPROHELPER *pp, unsigned int minArgsRequired, unsigned
 	}
 
 	return TRUE;
-}
-
-
-BOOL ConvertMultiByteToWideChar( const char * ansiStr, wchar_t ** wideStr )
-{
-	BOOL isOk = FALSE;
-	int wideCharsNeeded = MultiByteToWideChar( CP_THREAD_ACP, MB_ERR_INVALID_CHARS, ansiStr, -1, NULL, 0 );
-
-	if( wideCharsNeeded > 0 )
-	{		
-		if( NULL != ( *wideStr = malloc( wideCharsNeeded * sizeof( wchar_t ) ) ) )
-		{
-			if( 0 != MultiByteToWideChar( CP_THREAD_ACP, MB_ERR_INVALID_CHARS, ansiStr, -1, *wideStr, wideCharsNeeded ) )
-			{
-				isOk = TRUE;
-			}
-			else
-			{
-				free( wideStr );
-				*wideStr = NULL;
-			}
-		}
-	}
-
-	return isOk;
 }

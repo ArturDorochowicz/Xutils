@@ -31,34 +31,19 @@
 #include "powerpro.h"
 
 
-/**
- * Display error message.
- * Message is displayed with PPROSERVICES->ErrMessage
- * or an ordinary MessageBox, when PPROSERVICES is NULL.
- */
-void ShowErrorMessage( const char *message, PPROSERVICES *pproServices );
-
-
-/**
- * Format and display error message for error code obtained from GetLastError().
+/** Display error message. Message is displayed with PPROSERVICES->ErrMessage
+ *  or an ordinary MessageBox if PPROSERVICES is NULL.
 **/
-void ShowLastError( PPROSERVICES *pproServices );
+void ShowErrorMessage( const char *message, PPROSERVICES *pproServices );
 
 
 /** Validate number of arguments provided and show error message if necessary.
  *  @param pp PowerPro helper object.
- *  @param minArgsRequired Minimum number of required arguments.
- *  @param maxArgsRequired Maximum number of required arguments.
+ *  @param minArgsRequired Minimum number of arguments.
+ *  @param maxArgsRequired Maximum number of arguments.
  *  @return TRUE if number of provided arguments is within the range, FALSE otherwise.
 **/
 BOOL CheckArgumentsCount( PPROHELPER *pp, unsigned int minArgsRequired, unsigned int maxArgsRequired );
 
 
-/**
- * Convert specified ANSI string to Unicode string.
- * Caller is responsible for freeing allocated wide string with free().
-**/
-BOOL ConvertMultiByteToWideChar( const char *ansiStr, wchar_t **wideStr );
-
-
-#endif   // #ifndef _XUTILS_H
+#endif  /* #ifndef _XUTILS_H */

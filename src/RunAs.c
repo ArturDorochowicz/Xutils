@@ -36,6 +36,53 @@
 #include "Xutils.h"
 
 
+
+/** Get error description for specified system error code.
+ *  @param errorCode The system error code, e.g. obtained with GetLastError()).
+ *  @return Error description. Needs to be released with LocalFree().
+**/
+char* GetSystemErrorMessage( unsigned long errorCode  )
+{
+	char *message = NULL;
+
+	FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM,
+		NULL, errorCode, MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ),
+		(char*) &message, 0, NULL );
+	return message;
+}
+
+
+/** Convert provided ANSI string (in current thread code page) to Unicode string.
+ *  @param ansiString Null-terminated ANSI string.
+ *  @return Converted string or NULL if error. Returned string needs to released with free().
+**/
+wchar_t* ConvertAnsiToWideString( const char *ansiString )
+{	
+	int wideCharsNeeded = MultiByteToWideChar( CP_THREAD_ACP, MB_ERR_INVALID_CHARS,
+		ansiString, -1, NULL, 0 );
+
+	if( wideCharsNeeded > 0 )
+	{
+		wchar_t *wideString = (wchar_t*) malloc( wideCharsNeeded * sizeof( wchar_t ) );
+
+		if( wideString != NULL )
+		{
+			if( 0 != MultiByteToWideChar( CP_THREAD_ACP, MB_ERR_INVALID_CHARS,
+				ansiString, -1, wideString, wideCharsNeeded ) )
+			{
+				return wideString;
+			}
+
+			free( wideString );
+		}
+		return NULL;
+	}
+
+	/* Need to make a copy on heap, because every non-NULL return value will be freed */
+	return _wcsdup( L"" );
+}
+
+
 /**
  * Prepare command line.
  * Caller is responsible for freeing allocated string.
@@ -98,7 +145,6 @@ static BOOL RunAs( const wchar_t *programPath, const wchar_t *programArguments,
 	{		
 		CREDUI_INFOW credUIInfo;
 		BOOL saveState = FALSE;
-		DWORD errCode;
 		STARTUPINFOW startupInfo = {0};
 		PROCESS_INFORMATION processInfo = {0};
 
@@ -146,10 +192,12 @@ static BOOL RunAs( const wchar_t *programPath, const wchar_t *programArguments,
 					}
 					else
 					{
-						errCode = GetLastError( );
-						ShowLastError( NULL );
-
-						if( ERROR_LOGON_FAILURE == errCode )
+						DWORD errorCode = GetLastError( );
+						char *errorMessage = GetSystemErrorMessage( errorCode );
+						
+						ShowErrorMessage( errorMessage, NULL );
+						LocalFree( errorMessage );
+						if( ERROR_LOGON_FAILURE == errorCode )
 							repeat = TRUE;
 					}
 				}
@@ -207,16 +255,14 @@ static BOOL SuDo( const wchar_t *programPath, const wchar_t *programArguments,
 BEGIN_PPRO_SVC( runas )
 {
 	if( TRUE == CheckArgumentsCount( pp, 1, 4 ) )
-	{
-		wchar_t *preselectedUserName = NULL;
-		wchar_t *programPath = NULL;
-		wchar_t *programArguments = NULL;
-		wchar_t *workingDirectory = NULL;
+	{		
+		wchar_t *programPath = ConvertAnsiToWideString( pp->argv[0] );
+		wchar_t *programArguments = ConvertAnsiToWideString( 2 <= pp->argc ? pp->argv[1] : "" );
+		wchar_t *preselectedUserName = ConvertAnsiToWideString( 3 <= pp->argc ? pp->argv[2] : "" );
+		wchar_t *workingDirectory = ConvertAnsiToWideString( 4 == pp->argc ? pp->argv[3] : "" );
 
-		if( ConvertMultiByteToWideChar( pp->argv[0], &programPath )
-			&& ConvertMultiByteToWideChar( pp->argv[1], &programArguments )
-			&& ConvertMultiByteToWideChar( pp->argv[2], &preselectedUserName )
-			&& ConvertMultiByteToWideChar( pp->argv[3], &workingDirectory ) )
+		if( programPath != NULL && programArguments != NULL
+			&& preselectedUserName != NULL && workingDirectory != NULL )
 		{
 			RunAs( programPath, programArguments, preselectedUserName, workingDirectory );
 		}
@@ -241,13 +287,11 @@ BEGIN_PPRO_SVC( sudo )
 {
 	if( TRUE == CheckArgumentsCount( pp, 1, 3 ) )
 	{
-		wchar_t *programPath = NULL;
-		wchar_t *programArguments = NULL;
-		wchar_t *workingDirectory = NULL;
+		wchar_t *programPath = ConvertAnsiToWideString( pp->argv[0] );
+		wchar_t *programArguments = ConvertAnsiToWideString( 2 <= pp->argc ? pp->argv[1] : "" );
+		wchar_t *workingDirectory = ConvertAnsiToWideString( 3 == pp->argc ? pp->argv[2] : "" );
 
-		if( ConvertMultiByteToWideChar( pp->argv[0], &programPath )
-			&& ConvertMultiByteToWideChar( pp->argv[1], &programArguments )
-			&& ConvertMultiByteToWideChar( pp->argv[2], &workingDirectory ) )
+		if( programPath != NULL && programArguments != NULL && workingDirectory != NULL )
 		{
 			SuDo( programPath, programArguments, workingDirectory );
 		}
